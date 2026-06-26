@@ -41,14 +41,14 @@ function Dashboard() {
       try {
         const [dashboard] = await Promise.all([dashboardApi.getDashboardData()]);
         setDashboardData(dashboard);
-        await fetchUserPayments(user?._id);
+        await fetchUserPayments(user?.id || user?._id);
       } catch (err) {
         setError(err.message);
         if (err.message?.includes("401")) navigate("/login");
       } finally { setLoading(false); }
     };
     if (user) fetchData();
-  }, [user?._id]);
+  }, [user?.id, user?._id]);
 
   const formatCurrency = (amount) => new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", minimumFractionDigits: 0 }).format(amount || 0);
 
@@ -110,20 +110,20 @@ function Dashboard() {
             <div className="flex items-center gap-3 mt-1">
               <h2 className="text-2xl font-bold tracking-tight">{formatCurrency(totalInvested)}</h2>
             </div>
-            <div className="flex flex-wrap gap-3 mt-3">
-              <div className="bg-white/10 rounded-lg px-4 py-2.5 backdrop-blur-sm min-w-[160px]">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-3">
+              <div className="bg-white/10 rounded-lg px-4 py-2.5 backdrop-blur-sm">
                 <p className="text-white/60 text-[14px] font-medium mb-1">Total Interest Earned</p>
                 <p className="text-md font-bold">{formatCurrency(totalInterestEarned)}</p>
               </div>
-              <div className="bg-white/10 rounded-lg px-4 py-2.5 backdrop-blur-sm min-w-[160px]">
+              <div className="bg-white/10 rounded-lg px-4 py-2.5 backdrop-blur-sm">
                 <p className="text-white/60 text-[14px] font-medium mb-1">Total Repayment Recorded</p>
                 <p className="text-md font-bold">{formatCurrency(paymentTotals.totalPaymentAmountRecorded)}</p>
               </div>
-              <div className="bg-white/10 rounded-lg px-4 py-2.5 backdrop-blur-sm min-w-[160px]">
+              <div className="bg-white/10 rounded-lg px-4 py-2.5 backdrop-blur-sm">
                 <p className="text-white/60 text-[14px] font-medium mb-1">Total Due</p>
                 <p className="text-md font-bold">{formatCurrency(paymentTotals.totalDue)}</p>
               </div>
-              <div className="bg-white/10 rounded-lg px-4 py-2.5 backdrop-blur-sm min-w-[160px]">
+              <div className="bg-white/10 rounded-lg px-4 py-2.5 backdrop-blur-sm">
                 <p className="text-white/60 text-[14px] font-medium mb-1">Balance Left</p>
                 <p className="text-md font-bold">{formatCurrency(paymentTotals.balanceLeft)}</p>
               </div>
@@ -133,22 +133,22 @@ function Dashboard() {
       </div>
 
       <div className="grid md:grid-cols-3 gap-6 mb-8">
-        <a href="https://vestitudepartnersltd.com" target="_blank" className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all group">
-          <div className="w-12 h-12 mx-auto mb-4 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+        <a href="https://vestitudepartnersltd.com" target="_blank" className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all group border border-gray-100 shadow-sm flex flex-col items-center justify-center h-full">
+          <div className="w-12 h-12 mx-auto mb-4 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors shrink-0">
             <Globe className="text-blue-600" size={24} />
           </div>
           <h3 className="font-semibold text-gray-900 mb-1">Find Opportunities</h3>
           <p className="text-sm text-gray-600">Discover new investments</p>
         </a>
-        <Link to="/wallet" className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all group">
-          <div className="w-12 h-12 mx-auto mb-4 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors">
+        <Link to="/wallet" className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all group border border-gray-100 shadow-sm flex flex-col items-center justify-center h-full">
+          <div className="w-12 h-12 mx-auto mb-4 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors shrink-0">
             <Wallet className="text-green-600" size={24} />
           </div>
           <h3 className="font-semibold text-gray-900 mb-1">Fund Wallet</h3>
           <p className="text-sm text-gray-600">Add funds to your wallet</p>
         </Link>
-        <Link to="/wallet" className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all group">
-          <div className="w-12 h-12 mx-auto mb-4 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-gray-200 transition-colors">
+        <Link to="/wallet" className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all group border border-gray-100 shadow-sm flex flex-col items-center justify-center h-full">
+          <div className="w-12 h-12 mx-auto mb-4 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-gray-200 transition-colors shrink-0">
             <TrendingUp className="text-gray-600" size={24} />
           </div>
           <h3 className="font-semibold text-gray-900 mb-1">Payment History</h3>
@@ -186,7 +186,7 @@ function Dashboard() {
           ) : payments.length > 0 ? (
             <div className="space-y-3">
               {payments.slice(0, 3).map((payment, idx) => (
-                <div key={payment._id || idx} className="flex items-center justify-between py-3 border-b last:border-0">
+                <div key={payment.id || payment._id || idx} className="flex items-center justify-between py-3 border-b last:border-0">
                   <div>
                     <p className="font-medium text-gray-900">{payment.investment?.refNumber || payment.investment?.project?.projectName || "Payment"}</p>
                     <p className="text-xs text-gray-600">{payment.investment?.project?.projectName || "Investment payment"}</p>
