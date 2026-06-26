@@ -28,6 +28,10 @@ function Login() {
       }
       navigate("/dashboard");
     } catch (err) {
+      if (err.response?.status === 403 && err.response?.data?.message?.toLowerCase().includes('not verified')) {
+        navigate('/verify-email', { state: { email } });
+        return;
+      }
       setError(err.message || "Login failed. Please try again.");
     } finally {
       setLoading(false);

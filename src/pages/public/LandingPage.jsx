@@ -470,7 +470,7 @@ function LandingPage() {
             <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto">Join over 8,400 investors already building wealth through transparent, asset-backed investments in Nigeria's fastest-growing markets.</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link to={ROUTES.REGISTER}>
-                <Button size="lg" className="bg-white text-brand-500 hover:bg-gray-100 font-bold px-10 py-4 rounded-xl text-base shadow-lg">
+                <Button size="lg" className="border-2 border-gray-300 hover:border-brand-500 text-gray-700 hover:text-brand-500 font-medium px-8 py-4 rounded-xl transition-all text-base">
                   Create Free Account <ArrowRight size={18} />
                 </Button>
               </Link>

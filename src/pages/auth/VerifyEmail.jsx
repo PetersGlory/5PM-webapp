@@ -1,21 +1,26 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Mail, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { authApi } from "../../services/api";
 
 function VerifyEmail() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [verified, setVerified] = useState(false);
 
   const getEmail = () => {
+    const stateEmail = location.state?.email;
+    if (stateEmail) return stateEmail;
     try {
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       return user.email || '';
     } catch { return ''; }
   };
+
+  const email = getEmail();
 
   const handleChange = (index, value) => {
     if (value.length > 1) return;
@@ -35,12 +40,22 @@ function VerifyEmail() {
     }
   };
 
+  const handleResend = async () => {
+    if (!email) return;
+    setError("");
+    setLoading(true);
+    try {
+      await authApi.resendVerification(email);
+    } catch (err) {
+      setError(err.message || "Failed to resend code");
+    } finally { setLoading(false); }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     const token = code.join("");
     if (token.length !== 6) { setError("Please enter the complete 6-digit code"); return; }
-    const email = getEmail();
     if (!email) { setError("Email not found. Please log in again."); return; }
     setLoading(true);
     try {
@@ -74,7 +89,8 @@ function VerifyEmail() {
           <Mail className="text-brand-500" size={28} />
         </div>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Verify Your Email</h2>
-        <p className="text-gray-600">Enter the 6-digit code sent to your email address</p>
+        <p className="text-gray-600">Enter the 6-digit code sent to</p>
+        <p className="text-sm font-semibold text-gray-900">{email || 'your email'}</p>
       </div>
 
       {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">{error}</div>}
@@ -96,7 +112,7 @@ function VerifyEmail() {
 
       <p className="text-center text-sm text-gray-600 mt-6">
         Did not receive the code?{" "}
-        <button className="text-brand-500 font-medium hover:text-brand-600">Resend Code</button>
+        <button type="button" onClick={handleResend} disabled={loading} className="text-brand-500 font-medium hover:text-brand-600 disabled:opacity-50">Resend Code</button>
       </p>
     </div>
   );

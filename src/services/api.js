@@ -26,6 +26,9 @@ api.interceptors.response.use(
       localStorage.removeItem('user');
       window.location.href = '/login';
     }
+    if (error.response?.status === 403) {
+      error.message = error.response?.data?.message || error.message;
+    }
     return Promise.reject(error);
   },
 );
