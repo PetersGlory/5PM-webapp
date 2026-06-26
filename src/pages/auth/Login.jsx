@@ -26,10 +26,10 @@ function Login() {
         localStorage.setItem("authToken", token);
         login(token, { email });
       }
-      navigate("/dashboard");
+      window.location.href = '/dashboard';
     } catch (err) {
       if (err.response?.status === 403 && err.response?.data?.message?.toLowerCase().includes('not verified')) {
-        navigate('/verify-email', { state: { email } });
+        window.location.href = '/verify-email';
         return;
       }
       setError(err.message || "Login failed. Please try again.");
