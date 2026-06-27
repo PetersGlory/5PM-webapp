@@ -139,10 +139,70 @@ export const adminApi = {
   updateProperty: (id, data) => api.patch(`/properties/${id}`, data).then(r => r.data),
   getDistributions: () => api.get('/admin/distributions').then(r => r.data),
   createDistribution: (data) => api.post('/admin/distributions', data).then(r => r.data),
+  getInvestments: () => api.get('/admin/investments').then(r => r.data),
   getReports: () => api.get('/admin/reports').then(r => r.data),
 };
 
 // --- Dashboard ---
 export const dashboardApi = {
   getDashboardData: () => api.get('/dashboard').then(r => r.data),
+};
+
+// --- Wealth Plans ---
+export const wealthApi = {
+  getMyPlans: () => api.get('/wealth-plans').then(r => r.data),
+  getPlanDetail: (id) => api.get(`/wealth-plans/${id}`).then(r => r.data),
+  createPlan: (data) => api.post('/wealth-plans', data).then(r => r.data),
+  getCooperatives: () => api.get('/cooperatives').then(r => r.data),
+};
+
+// --- Admin Wealth ---
+// --- Support Tickets ---
+export const ticketApi = {
+  getMyTickets: () => api.get('/tickets').then(r => r.data),
+  getTicketDetail: (id) => api.get(`/tickets/${id}`).then(r => r.data),
+  createTicket: (data) => api.post('/tickets', data).then(r => r.data),
+  addReply: (id, message) => api.post(`/tickets/${id}/reply`, { message }).then(r => r.data),
+};
+
+// --- Admin Support ---
+export const adminTicketApi = {
+  getAllTickets: (filters) => {
+    const params = new URLSearchParams(filters).toString();
+    return api.get(`/tickets/admin/all?${params}`).then(r => r.data);
+  },
+  getTicketDetail: (id) => api.get(`/tickets/${id}`).then(r => r.data),
+  addReply: (id, message) => api.post(`/tickets/${id}/reply`, { message }).then(r => r.data),
+  updateTicket: (id, data) => api.patch(`/tickets/${id}`, data).then(r => r.data),
+};
+
+export const adminWealthApi = {
+  getAllPlans: () => api.get('/wealth-plans/admin/all').then(r => r.data),
+  recordContribution: (id, data) => api.post(`/wealth-plans/${id}/contribute`, data).then(r => r.data),
+  updatePlan: (id, data) => api.patch(`/wealth-plans/${id}`, data).then(r => r.data),
+  createCooperative: (data) => api.post('/cooperatives', data).then(r => r.data),
+  getCooperatives: () => api.get('/cooperatives').then(r => r.data),
+};
+
+// --- Crowdfunding ---
+export const campaignApi = {
+  getCampaigns: () => api.get('/campaigns').then(r => r.data),
+  getCampaignDetail: (id) => api.get(`/campaigns/${id}`).then(r => r.data),
+  invest: (id, data) => api.post(`/campaigns/${id}/invest`, data).then(r => r.data),
+};
+
+export const adminCampaignApi = {
+  getAllCampaigns: (filters) => {
+    const params = new URLSearchParams(filters).toString();
+    return api.get(`/campaigns/admin/all?${params}`).then(r => r.data);
+  },
+  createCampaign: (data) => api.post('/campaigns', data).then(r => r.data),
+  updateCampaign: (id, data) => api.patch(`/campaigns/${id}`, data).then(r => r.data),
+};
+
+// --- Property Updates ---
+export const propertyUpdateApi = {
+  getUpdates: (propertyId) => api.get(`/property-updates/${propertyId}`).then(r => r.data),
+  createUpdate: (propertyId, data) => api.post(`/property-updates/${propertyId}`, data).then(r => r.data),
+  deleteUpdate: (propertyId, id) => api.delete(`/property-updates/${propertyId}/${id}`).then(r => r.data),
 };

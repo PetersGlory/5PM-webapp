@@ -15,7 +15,10 @@ import {
   Building2,
   BarChart3,
   PieChart,
+  PiggyBank,
+  MessageSquare,
   Mail,
+  Target,
 } from 'lucide-react';
 import useAuthStore from '../store/authStore';
 import EmailVerificationModal from '../components/EmailVerificationModal';
@@ -23,11 +26,14 @@ import EmailVerificationModal from '../components/EmailVerificationModal';
 const menuItems = [
   { label: 'Dashboard', icon: LayoutGrid, path: '/dashboard' },
   { label: 'Marketplace', icon: Store, path: '/marketplace' },
+  { label: 'Wealth Plans', icon: PiggyBank, path: '/wealth-plans' },
   { label: 'My Investments', icon: TrendingUp, path: '/investments' },
   { label: 'Real Estate', icon: Building2, path: '/properties' },
   { label: 'Portfolio', icon: PieChart, path: '/portfolio' },
   { label: 'Reports', icon: BarChart3, path: '/reports' },
   { label: 'Wallet', icon: Wallet, path: '/wallet' },
+  { label: 'Crowdfunding', icon: Target, path: '/crowdfunding' },
+  { label: 'Support', icon: MessageSquare, path: '/support' },
   { label: 'Profile', icon: User, path: '/profile' },
   { label: 'Terms & Conditions', icon: FileText, path: '/terms' },
 ];

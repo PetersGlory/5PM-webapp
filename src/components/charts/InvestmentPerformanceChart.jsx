@@ -1,15 +1,11 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
-const data = [
-  { name: 'Nexus Vault', invested: 1000000, returns: 180000 },
-  { name: 'Real Estate A', invested: 2000000, returns: 400000 },
-  { name: 'Wealth Plan', invested: 500000, returns: 75000 },
-  { name: 'Real Estate B', invested: 1500000, returns: 300000 },
-  { name: 'Fixed Income', invested: 800000, returns: 120000 },
-];
-
-function InvestmentPerformanceChart() {
+function InvestmentPerformanceChart({ data = [] }) {
   const formatVal = (v) => `₦${(v / 1000000).toFixed(1)}M`;
+
+  if (data.length === 0) {
+    return <div className="flex items-center justify-center h-[300px] text-gray-400 text-sm">No performance data available</div>;
+  }
 
   return (
     <ResponsiveContainer width="100%" height={300}>

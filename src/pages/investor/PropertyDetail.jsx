@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Home, TrendingUp, Users, CheckCircle2, AlertCircle, Minus, Plus } from "lucide-react";
-import { propertyApi } from "../../services/api";
+import { ArrowLeft, MapPin, Home, TrendingUp, Users, CheckCircle2, AlertCircle, Minus, Plus, FileText, Image, Construction, Calendar } from "lucide-react";
+import { propertyApi, propertyUpdateApi } from "../../services/api";
 import { Card, Skeleton, Badge, Button, Modal, Input } from "../../components/common";
 
 const formatNaira = (amount) => "₦" + (amount || 0).toLocaleString("en-NG");
@@ -10,6 +10,7 @@ export default function PropertyDetail() {
   const { id } = useParams();
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [updates, setUpdates] = useState([]);
   const [showPurchase, setShowPurchase] = useState(false);
   const [units, setUnits] = useState(1);
   const [purchaseStep, setPurchaseStep] = useState("form");
@@ -25,7 +26,13 @@ export default function PropertyDetail() {
         setProperty(null);
       } finally { setLoading(false); }
     };
-    if (id) fetch();
+    const fetchUpdates = async () => {
+      try {
+        const res = await propertyUpdateApi.getUpdates(id);
+        setUpdates(Array.isArray(res) ? res : res?.data ?? []);
+      } catch { setUpdates([]); }
+    };
+    if (id) { fetch(); fetchUpdates(); }
   }, [id]);
 
   const pricePerUnit = property?.pricePerUnit || property?.price || 0;
@@ -100,6 +107,33 @@ export default function PropertyDetail() {
                     <span>{f}</span>
                   </div>
                 ))}
+              </div>
+            </Card>
+          )}
+
+          {updates.length > 0 && (
+            <Card>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Property Updates</h3>
+              <div className="space-y-4">
+                {updates.map((u) => {
+                  const TypeIcon = u.updateType === "construction" ? Construction
+                    : u.updateType === "milestone" ? Calendar
+                    : u.updateType === "document" ? FileText
+                    : u.updateType === "media" ? Image
+                    : FileText;
+                  return (
+                    <div key={u.id} className="flex items-start gap-3 pb-4 border-b border-gray-100 last:border-0 last:pb-0">
+                      <div className="w-10 h-10 bg-navy-100 rounded-xl flex items-center justify-center shrink-0">
+                        <TypeIcon size={18} className="text-navy-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900">{u.title}</p>
+                        {u.description && <p className="text-sm text-gray-600 mt-1">{u.description}</p>}
+                        <p className="text-xs text-gray-500 mt-1">{new Date(u.createdAt).toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" })}</p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </Card>
           )}

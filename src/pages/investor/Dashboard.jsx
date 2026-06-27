@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { TrendingUp, Globe, Wallet, ChevronRight, CheckCircle2, BarChart3, Activity } from "lucide-react";
-import { dashboardApi, userApi } from "../../services/api";
+import { dashboardApi, userApi, investmentApi } from "../../services/api";
 import useAuthStore from "../../store/authStore";
 import { Card, Skeleton } from "../../components/common";
 import WithdrawalRequestModal from "../../components/WithdrawalRequestModal";
@@ -36,11 +36,17 @@ function Dashboard() {
     } finally { setPaymentsLoading(false); }
   };
 
+  const [investments, setInvestments] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [dashboard] = await Promise.all([dashboardApi.getDashboardData()]);
+        const [dashboard, invData] = await Promise.all([
+          dashboardApi.getDashboardData(),
+          investmentApi.getMyInvestments(),
+        ]);
         setDashboardData(dashboard);
+        setInvestments(Array.isArray(invData) ? invData : invData?.data ?? []);
         await fetchUserPayments(user?.id || user?._id);
       } catch (err) {
         setError(err.message);
@@ -49,6 +55,34 @@ function Dashboard() {
     };
     if (user) fetchData();
   }, [user?.id, user?._id]);
+
+  const portfolioGrowthData = useMemo(() => {
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return months.map((month, i) => ({
+      month,
+      value: investments.reduce((sum, inv) => {
+        const start = inv.startDate ? new Date(inv.startDate).getMonth() : 0;
+        return sum + (i >= start ? Number(inv.amount || 0) : 0);
+      }, 0),
+    }));
+  }, [investments]);
+
+  const performanceData = useMemo(() => {
+    return investments.map((inv) => ({
+      name: inv.project?.projectName || inv.refNumber || "Investment",
+      invested: Number(inv.amount || 0),
+      returns: Number(inv.interestEarned || 0),
+    }));
+  }, [investments]);
+
+  const returnHistoryData = useMemo(() => {
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const currentMonth = new Date().getMonth();
+    return months.map((month, i) => ({
+      month,
+      return: i <= currentMonth ? investments.reduce((sum, inv) => sum + Number(inv.interestEarned || 0) * ((i + 1) / 12), 0) : 0,
+    }));
+  }, [investments]);
 
   const formatCurrency = (amount) => new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", minimumFractionDigits: 0 }).format(amount || 0);
 
@@ -215,14 +249,14 @@ function Dashboard() {
               <TrendingUp className="text-brand-500" size={20} />
               <Card.Title>Portfolio Growth</Card.Title>
             </div>
-            <PortfolioGrowthChart />
+            <PortfolioGrowthChart data={portfolioGrowthData} />
           </Card>
           <Card>
             <div className="flex items-center gap-2 mb-4">
               <Activity className="text-brand-500" size={20} />
               <Card.Title>Return History</Card.Title>
             </div>
-            <ReturnHistoryChart />
+            <ReturnHistoryChart data={returnHistoryData} />
           </Card>
         </div>
         <Card>
@@ -230,7 +264,7 @@ function Dashboard() {
             <BarChart3 className="text-brand-500" size={20} />
             <Card.Title>Investment Performance</Card.Title>
           </div>
-          <InvestmentPerformanceChart />
+          <InvestmentPerformanceChart data={performanceData} />
         </Card>
       </div>
 

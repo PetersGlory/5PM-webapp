@@ -38,12 +38,36 @@ const Portfolio = lazy(() => import('../pages/investor/Portfolio'));
 const Reports = lazy(() => import('../pages/investor/Reports'));
 const Notifications = lazy(() => import('../pages/investor/Notifications'));
 
+// Investor pages: Wealth Plans
+const WealthPlans = lazy(() => import('../pages/investor/WealthPlans'));
+const WealthPlanDetail = lazy(() => import('../pages/investor/WealthPlanDetail'));
+const CreateWealthPlan = lazy(() => import('../pages/investor/CreateWealthPlan'));
+
+// Investor pages: Support
+const SupportTickets = lazy(() => import('../pages/investor/SupportTickets'));
+const TicketDetail = lazy(() => import('../pages/investor/TicketDetail'));
+const CreateTicket = lazy(() => import('../pages/investor/CreateTicket'));
+
+// Investor pages: Crowdfunding
+const Crowdfunding = lazy(() => import('../pages/investor/Crowdfunding'));
+const CampaignDetail = lazy(() => import('../pages/investor/CampaignDetail'));
+
 // Admin pages
 const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'));
 const AdminUsers = lazy(() => import('../pages/admin/AdminUsers'));
+const AdminUserDetail = lazy(() => import('../pages/admin/AdminUserDetail'));
 const AdminKyc = lazy(() => import('../pages/admin/AdminKyc'));
 const AdminWallets = lazy(() => import('../pages/admin/AdminWallets'));
+const AdminInvestments = lazy(() => import('../pages/admin/AdminInvestments'));
+const AdminProperties = lazy(() => import('../pages/admin/AdminProperties'));
+const AdminDistributions = lazy(() => import('../pages/admin/AdminDistributions'));
 const AdminReports = lazy(() => import('../pages/admin/AdminReports'));
+const AdminWealthPlans = lazy(() => import('../pages/admin/AdminWealthPlans'));
+const AdminCooperatives = lazy(() => import('../pages/admin/AdminCooperatives'));
+const AdminSupportTickets = lazy(() => import('../pages/admin/AdminSupportTickets'));
+const AdminTicketDetail = lazy(() => import('../pages/admin/AdminTicketDetail'));
+const AdminCampaigns = lazy(() => import('../pages/admin/AdminCampaigns'));
+const AdminPropertyDetail = lazy(() => import('../pages/admin/AdminPropertyDetail'));
 const InvestmentDetail = lazy(() => import('../pages/admin/InvestmentDetail'));
 
 function Loading() {
@@ -164,6 +188,14 @@ function AppRoutes() {
         <Route path="/portfolio" element={<ProtectedRoute><Portfolio /></ProtectedRoute>} />
         <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
         <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
+        <Route path="/wealth-plans" element={<ProtectedRoute><WealthPlans /></ProtectedRoute>} />
+        <Route path="/wealth-plans/create" element={<ProtectedRoute><CreateWealthPlan /></ProtectedRoute>} />
+        <Route path="/wealth-plans/:id" element={<ProtectedRoute><WealthPlanDetail /></ProtectedRoute>} />
+        <Route path="/support" element={<ProtectedRoute><SupportTickets /></ProtectedRoute>} />
+        <Route path="/support/new" element={<ProtectedRoute><CreateTicket /></ProtectedRoute>} />
+        <Route path="/support/:id" element={<ProtectedRoute><TicketDetail /></ProtectedRoute>} />
+        <Route path="/crowdfunding" element={<ProtectedRoute><Crowdfunding /></ProtectedRoute>} />
+        <Route path="/crowdfunding/:id" element={<ProtectedRoute><CampaignDetail /></ProtectedRoute>} />
 
         {/* Admin routes */}
         <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
@@ -171,7 +203,17 @@ function AppRoutes() {
         <Route path="/admin/kyc" element={<AdminRoute><AdminKyc /></AdminRoute>} />
         <Route path="/admin/wallets" element={<AdminRoute><AdminWallets /></AdminRoute>} />
         <Route path="/admin/reports" element={<AdminRoute><AdminReports /></AdminRoute>} />
+        <Route path="/admin/investments" element={<AdminRoute><AdminInvestments /></AdminRoute>} />
         <Route path="/admin/investments/:id" element={<AdminRoute><InvestmentDetail /></AdminRoute>} />
+        <Route path="/admin/properties" element={<AdminRoute><AdminProperties /></AdminRoute>} />
+        <Route path="/admin/distributions" element={<AdminRoute><AdminDistributions /></AdminRoute>} />
+        <Route path="/admin/users/:id" element={<AdminRoute><AdminUserDetail /></AdminRoute>} />
+        <Route path="/admin/wealth-plans" element={<AdminRoute><AdminWealthPlans /></AdminRoute>} />
+        <Route path="/admin/cooperatives" element={<AdminRoute><AdminCooperatives /></AdminRoute>} />
+        <Route path="/admin/support" element={<AdminRoute><AdminSupportTickets /></AdminRoute>} />
+        <Route path="/admin/support/:id" element={<AdminRoute><AdminTicketDetail /></AdminRoute>} />
+        <Route path="/admin/campaigns" element={<AdminRoute><AdminCampaigns /></AdminRoute>} />
+        <Route path="/admin/properties/:id" element={<AdminRoute><AdminPropertyDetail /></AdminRoute>} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to={isAuthenticated ? '/dashboard' : '/'} replace />} />

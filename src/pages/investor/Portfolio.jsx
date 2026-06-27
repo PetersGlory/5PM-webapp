@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import { TrendingUp, Wallet, Percent, PieChartIcon, Shield } from "lucide-react";
 import { userApi } from "../../services/api";
@@ -33,21 +33,25 @@ export default function Portfolio() {
     if (user?._id) fetch();
   }, [user?._id]);
 
-  const allocationData = [
-    { name: "Fixed Income", value: 45 },
-    { name: "Real Estate", value: 25 },
-    { name: "Wealth Plans", value: 20 },
-    { name: "Agriculture", value: 10 },
-  ];
+  const allocationData = useMemo(() => {
+    if (investments.length === 0) return [];
+    const total = investments.reduce((s, inv) => s + Number(inv.amount || 0), 0);
+    return investments.map((inv) => ({
+      name: inv.project?.projectName || inv.refNumber || "Investment",
+      value: total > 0 ? Math.round((Number(inv.amount || 0) / total) * 100) : 0,
+    }));
+  }, [investments]);
 
-  const performanceData = [
-    { month: "Jan", value: 1000000 },
-    { month: "Feb", value: 1150000 },
-    { month: "Mar", value: 1080000 },
-    { month: "Apr", value: 1320000 },
-    { month: "May", value: 1450000 },
-    { month: "Jun", value: 1680000 },
-  ];
+  const performanceData = useMemo(() => {
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return months.map((month, i) => ({
+      month,
+      value: investments.reduce((sum, inv) => {
+        const start = inv.startDate ? new Date(inv.startDate).getMonth() : 0;
+        return sum + (i >= start ? Number(inv.amount || 0) : 0);
+      }, 0),
+    }));
+  }, [investments]);
 
   if (loading) {
     return (

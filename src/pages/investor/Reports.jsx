@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { FileText, Download, Filter, Calendar, TrendingUp, DollarSign, PiggyBank } from "lucide-react";
 import { investmentApi } from "../../services/api";
 import useAuthStore from "../../store/authStore";
@@ -16,6 +16,23 @@ export default function Reports() {
   const [investments, setInvestments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState("All Time");
+
+  const returnHistoryData = useMemo(() => {
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const currentMonth = new Date().getMonth();
+    return months.map((month, i) => ({
+      month,
+      return: i <= currentMonth ? investments.reduce((sum, inv) => sum + Number(inv.interestEarned || 0) * ((i + 1) / 12), 0) : 0,
+    }));
+  }, [investments]);
+
+  const performanceData = useMemo(() => {
+    return investments.map((inv) => ({
+      name: inv.project?.projectName || inv.refNumber || "Investment",
+      invested: Number(inv.amount || 0),
+      returns: Number(inv.interestEarned || 0),
+    }));
+  }, [investments]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -99,11 +116,11 @@ export default function Reports() {
       <div className="grid md:grid-cols-2 gap-6">
         <Card>
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Return History</h3>
-          <ReturnHistoryChart />
+          <ReturnHistoryChart data={returnHistoryData} />
         </Card>
         <Card>
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Investment Performance</h3>
-          <InvestmentPerformanceChart />
+          <InvestmentPerformanceChart data={performanceData} />
         </Card>
       </div>
 

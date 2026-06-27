@@ -1,22 +1,11 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const data = [
-  { month: 'Jan', value: 1000000 },
-  { month: 'Feb', value: 1200000 },
-  { month: 'Mar', value: 1150000 },
-  { month: 'Apr', value: 1400000 },
-  { month: 'May', value: 1800000 },
-  { month: 'Jun', value: 2200000 },
-  { month: 'Jul', value: 2100000 },
-  { month: 'Aug', value: 2500000 },
-  { month: 'Sep', value: 2800000 },
-  { month: 'Oct', value: 3100000 },
-  { month: 'Nov', value: 3500000 },
-  { month: 'Dec', value: 4000000 },
-];
-
-function PortfolioGrowthChart() {
+function PortfolioGrowthChart({ data = [] }) {
   const formatValue = (v) => `₦${(v / 1000000).toFixed(1)}M`;
+
+  if (data.length === 0) {
+    return <div className="flex items-center justify-center h-[300px] text-gray-400 text-sm">No portfolio data available</div>;
+  }
 
   return (
     <ResponsiveContainer width="100%" height={300}>

@@ -9,12 +9,16 @@ import {
   Building2,
   Gift,
   FileBarChart,
+  PiggyBank,
+  Building,
+  MessageSquare,
   Bell,
   LogOut,
   Menu,
   X,
   ArrowLeft,
   Mail,
+  Target,
 } from 'lucide-react';
 import useAuthStore from '../store/authStore';
 import EmailVerificationModal from '../components/EmailVerificationModal';
@@ -27,6 +31,10 @@ const adminMenuItems = [
   { label: 'Investments', icon: TrendingUp, path: '/admin/investments' },
   { label: 'Properties', icon: Building2, path: '/admin/properties' },
   { label: 'Distributions', icon: Gift, path: '/admin/distributions' },
+  { label: 'Crowdfunding', icon: Target, path: '/admin/campaigns' },
+  { label: 'Wealth Plans', icon: PiggyBank, path: '/admin/wealth-plans' },
+  { label: 'Cooperatives', icon: Building, path: '/admin/cooperatives' },
+  { label: 'Support', icon: MessageSquare, path: '/admin/support' },
   { label: 'Reports', icon: FileBarChart, path: '/admin/reports' },
 ];
 

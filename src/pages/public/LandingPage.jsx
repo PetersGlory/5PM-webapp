@@ -154,7 +154,7 @@ function LandingPage() {
               <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500">
                 <div className="flex items-center gap-2">
                   <CheckCircle size={14} className="text-green-500" />
-                  SEC Registered
+                  Duly Registered
                 </div>
                 <div className="flex items-center gap-2">
                   <Shield size={14} className="text-brand-500" />

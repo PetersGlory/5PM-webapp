@@ -1,22 +1,11 @@
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const data = [
-  { month: 'Jan', return: 0 },
-  { month: 'Feb', return: 15000 },
-  { month: 'Mar', return: 15000 },
-  { month: 'Apr', return: 30000 },
-  { month: 'May', return: 30000 },
-  { month: 'Jun', return: 45000 },
-  { month: 'Jul', return: 45000 },
-  { month: 'Aug', return: 60000 },
-  { month: 'Sep', return: 60000 },
-  { month: 'Oct', return: 75000 },
-  { month: 'Nov', return: 75000 },
-  { month: 'Dec', return: 90000 },
-];
-
-function ReturnHistoryChart() {
+function ReturnHistoryChart({ data = [] }) {
   const formatVal = (v) => `₦${v.toLocaleString()}`;
+
+  if (data.length === 0) {
+    return <div className="flex items-center justify-center h-[300px] text-gray-400 text-sm">No return history available</div>;
+  }
 
   return (
     <ResponsiveContainer width="100%" height={300}>
