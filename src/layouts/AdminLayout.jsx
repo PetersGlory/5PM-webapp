@@ -19,6 +19,9 @@ import {
   ArrowLeft,
   Mail,
   Target,
+  Banknote,
+  Award,
+  Brain,
 } from 'lucide-react';
 import useAuthStore from '../store/authStore';
 import EmailVerificationModal from '../components/EmailVerificationModal';
@@ -34,6 +37,9 @@ const adminMenuItems = [
   { label: 'Crowdfunding', icon: Target, path: '/admin/campaigns' },
   { label: 'Wealth Plans', icon: PiggyBank, path: '/admin/wealth-plans' },
   { label: 'Cooperatives', icon: Building, path: '/admin/cooperatives' },
+  { label: 'Loans', icon: Banknote, path: '/admin/loans' },
+  { label: 'REIT Pools', icon: Building2, path: '/admin/reit' },
+  { label: 'Token Registry', icon: Award, path: '/admin/tokens' },
   { label: 'Support', icon: MessageSquare, path: '/admin/support' },
   { label: 'Reports', icon: FileBarChart, path: '/admin/reports' },
 ];

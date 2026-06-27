@@ -52,6 +52,14 @@ const CreateTicket = lazy(() => import('../pages/investor/CreateTicket'));
 const Crowdfunding = lazy(() => import('../pages/investor/Crowdfunding'));
 const CampaignDetail = lazy(() => import('../pages/investor/CampaignDetail'));
 
+// Investor pages: Phase 3
+const Loans = lazy(() => import('../pages/investor/Loans'));
+const LoanDetail = lazy(() => import('../pages/investor/LoanDetail'));
+const ReitPools = lazy(() => import('../pages/investor/ReitPools'));
+const MyTokens = lazy(() => import('../pages/investor/MyTokens'));
+const TokenMarketplace = lazy(() => import('../pages/investor/TokenMarketplace'));
+const AIAnalytics = lazy(() => import('../pages/investor/AIAnalytics'));
+
 // Admin pages
 const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'));
 const AdminUsers = lazy(() => import('../pages/admin/AdminUsers'));
@@ -68,6 +76,9 @@ const AdminSupportTickets = lazy(() => import('../pages/admin/AdminSupportTicket
 const AdminTicketDetail = lazy(() => import('../pages/admin/AdminTicketDetail'));
 const AdminCampaigns = lazy(() => import('../pages/admin/AdminCampaigns'));
 const AdminPropertyDetail = lazy(() => import('../pages/admin/AdminPropertyDetail'));
+const AdminLoans = lazy(() => import('../pages/admin/AdminLoans'));
+const AdminReit = lazy(() => import('../pages/admin/AdminReit'));
+const AdminTokens = lazy(() => import('../pages/admin/AdminTokens'));
 const InvestmentDetail = lazy(() => import('../pages/admin/InvestmentDetail'));
 
 function Loading() {
@@ -196,6 +207,12 @@ function AppRoutes() {
         <Route path="/support/:id" element={<ProtectedRoute><TicketDetail /></ProtectedRoute>} />
         <Route path="/crowdfunding" element={<ProtectedRoute><Crowdfunding /></ProtectedRoute>} />
         <Route path="/crowdfunding/:id" element={<ProtectedRoute><CampaignDetail /></ProtectedRoute>} />
+        <Route path="/loans" element={<ProtectedRoute><Loans /></ProtectedRoute>} />
+        <Route path="/loans/:id" element={<ProtectedRoute><LoanDetail /></ProtectedRoute>} />
+        <Route path="/reit" element={<ProtectedRoute><ReitPools /></ProtectedRoute>} />
+        <Route path="/tokens" element={<ProtectedRoute><MyTokens /></ProtectedRoute>} />
+        <Route path="/tokens/marketplace" element={<ProtectedRoute><TokenMarketplace /></ProtectedRoute>} />
+        <Route path="/analytics" element={<ProtectedRoute><AIAnalytics /></ProtectedRoute>} />
 
         {/* Admin routes */}
         <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
@@ -214,6 +231,9 @@ function AppRoutes() {
         <Route path="/admin/support/:id" element={<AdminRoute><AdminTicketDetail /></AdminRoute>} />
         <Route path="/admin/campaigns" element={<AdminRoute><AdminCampaigns /></AdminRoute>} />
         <Route path="/admin/properties/:id" element={<AdminRoute><AdminPropertyDetail /></AdminRoute>} />
+        <Route path="/admin/loans" element={<AdminRoute><AdminLoans /></AdminRoute>} />
+        <Route path="/admin/reit" element={<AdminRoute><AdminReit /></AdminRoute>} />
+        <Route path="/admin/tokens" element={<AdminRoute><AdminTokens /></AdminRoute>} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to={isAuthenticated ? '/dashboard' : '/'} replace />} />

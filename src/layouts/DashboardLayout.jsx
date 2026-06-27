@@ -19,6 +19,10 @@ import {
   MessageSquare,
   Mail,
   Target,
+  Banknote,
+  Award,
+  Brain,
+  Building,
 } from 'lucide-react';
 import useAuthStore from '../store/authStore';
 import EmailVerificationModal from '../components/EmailVerificationModal';
@@ -33,6 +37,10 @@ const menuItems = [
   { label: 'Reports', icon: BarChart3, path: '/reports' },
   { label: 'Wallet', icon: Wallet, path: '/wallet' },
   { label: 'Crowdfunding', icon: Target, path: '/crowdfunding' },
+  { label: 'Loans', icon: Banknote, path: '/loans' },
+  { label: 'REIT Pools', icon: Building, path: '/reit' },
+  { label: 'My Tokens', icon: Award, path: '/tokens' },
+  { label: 'AI Analytics', icon: Brain, path: '/analytics' },
   { label: 'Support', icon: MessageSquare, path: '/support' },
   { label: 'Profile', icon: User, path: '/profile' },
   { label: 'Terms & Conditions', icon: FileText, path: '/terms' },

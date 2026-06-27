@@ -206,3 +206,47 @@ export const propertyUpdateApi = {
   createUpdate: (propertyId, data) => api.post(`/property-updates/${propertyId}`, data).then(r => r.data),
   deleteUpdate: (propertyId, id) => api.delete(`/property-updates/${propertyId}/${id}`).then(r => r.data),
 };
+
+// --- Loans ---
+export const loanApi = {
+  getMyLoans: () => api.get('/loans').then(r => r.data),
+  getLoanDetail: (id) => api.get(`/loans/${id}`).then(r => r.data),
+  applyLoan: (data) => api.post('/loans/apply', data).then(r => r.data),
+};
+
+export const adminLoanApi = {
+  getAllLoans: (filters) => {
+    const params = new URLSearchParams(filters).toString();
+    return api.get(`/loans/admin/all?${params}`).then(r => r.data);
+  },
+  approveLoan: (id, status) => api.patch(`/loans/${id}/approve`, { status }).then(r => r.data),
+  recordRepayment: (id, data) => api.post(`/loans/${id}/repay`, data).then(r => r.data),
+};
+
+// --- REIT ---
+export const reitApi = {
+  getPools: () => api.get('/reit').then(r => r.data),
+  getPoolDetail: (id) => api.get(`/reit/${id}`).then(r => r.data),
+  invest: (id, data) => api.post(`/reit/${id}/invest`, data).then(r => r.data),
+};
+
+export const adminReitApi = {
+  getAllPools: () => api.get('/reit').then(r => r.data),
+  createPool: (data) => api.post('/reit', data).then(r => r.data),
+  createDistribution: (id, data) => api.post(`/reit/${id}/distribute`, data).then(r => r.data),
+  updatePool: (id, data) => api.patch(`/reit/${id}`, data).then(r => r.data),
+};
+
+// --- Tokens ---
+export const tokenApi = {
+  getMyTokens: () => api.get('/tokens/my').then(r => r.data),
+  listToken: (data) => api.post('/tokens/list', data).then(r => r.data),
+  getMarketplace: () => api.get('/tokens/marketplace').then(r => r.data),
+  buyToken: (listingId) => api.post(`/tokens/buy/${listingId}`).then(r => r.data),
+};
+
+// --- Analytics ---
+export const analyticsApi = {
+  getInsights: () => api.get('/analytics/insights').then(r => r.data),
+  getAdminAnalytics: () => api.get('/analytics/admin').then(r => r.data),
+};
