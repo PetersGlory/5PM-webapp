@@ -1,17 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Mail, Phone, PlusCircle } from "lucide-react";
-import { userApi, investmentApi } from "../../services/api";
+import { Mail, Phone } from "lucide-react";
+import { userApi } from "../../services/api";
 import useAuthStore from "../../store/authStore";
 import { Card, Skeleton, Badge } from "../../components/common";
-
-const projectOptions = ["Operating Theatre", "Solar Farm", "Housing Development", "Education Centre", "Agriculture Expansion"];
-const repaymentOptions = ["interest only", "interest + principal", "withdrawal upon expiration"];
 
 export default function MyInvestments() {
   const navigate = useNavigate();
   const { user: localUser } = useAuthStore();
-  const id = localUser?._id;
+  const id = localUser?.id || localUser?._id;
 
   const [user, setUser] = useState(null);
   const [stats, setStats] = useState(null);
@@ -20,19 +17,6 @@ export default function MyInvestments() {
   const [payments, setPayments] = useState([]);
   const [paymentsLoading, setPaymentsLoading] = useState(true);
   const [paymentTotals, setPaymentTotals] = useState({ totalPaymentAmountRecorded: 0, totalDue: 0, balanceLeft: 0 });
-  const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({
-    project: "", amount: "", interestRatePerAnnum: "", tenure: "", repaymentStructure: "",
-    startDate: "", endDate: "", expectedMonthlyRepaymentDate: "", interestEarned: "",
-    expectedMonthlyRepayment: "", payoutUponExpiration: "",
-  });
-  const [investmentLoading, setInvestmentLoading] = useState(false);
-
-  const toIsoDate = (value) => {
-    if (!value) return "";
-    const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? value : date.toISOString();
-  };
 
   const fetchUserData = useCallback(async () => {
     if (!id) return;
@@ -62,32 +46,12 @@ export default function MyInvestments() {
         totalDue: paymentsData?.totals?.totalDue ?? 0,
         balanceLeft: paymentsData?.totals?.balanceLeft ?? 0,
       });
-    } catch (error) {
+    } catch {
       setPayments([]);
     } finally { setPaymentsLoading(false); }
   }, [id]);
 
   useEffect(() => { fetchUserData(); fetchUserPayments(); }, [fetchUserData, fetchUserPayments]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      setInvestmentLoading(true);
-      await investmentApi.createInvestment({
-        user: id, project: formData.project, amount: Number(formData.amount),
-        interestRatePerAnnum: Number(formData.interestRatePerAnnum), tenure: Number(formData.tenure),
-        repaymentStructure: formData.repaymentStructure, startDate: toIsoDate(formData.startDate),
-        endDate: toIsoDate(formData.endDate), expectedMonthlyRepaymentDate: toIsoDate(formData.expectedMonthlyRepaymentDate),
-        interestEarned: Number(formData.interestEarned), expectedMonthlyRepayment: Number(formData.expectedMonthlyRepayment),
-        payoutUponExpiration: Number(formData.payoutUponExpiration),
-      });
-      setShowModal(false);
-      setFormData({ project: "", amount: "", interestRatePerAnnum: "", tenure: "", repaymentStructure: "", startDate: "", endDate: "", expectedMonthlyRepaymentDate: "", interestEarned: "", expectedMonthlyRepayment: "", payoutUponExpiration: "" });
-      fetchUserData();
-    } catch (error) {
-      console.error("Error creating investment:", error);
-    } finally { setInvestmentLoading(false); }
-  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -152,15 +116,17 @@ export default function MyInvestments() {
       </div>
 
       <Card>
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center"><PlusCircle className="w-5 h-5 text-blue-600" /></div>
-            <h3 className="text-lg font-semibold text-gray-900">Investments ({investments.length})</h3>
+        <div className="flex items-center gap-2 mb-6">
+          <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+            <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
           </div>
+          <h3 className="text-lg font-semibold text-gray-900">Investments ({investments.length})</h3>
         </div>
         {investments.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="overflow-x-auto -mx-6">
+            <table className="w-full text-sm min-w-[600px]">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Ref #</th>
@@ -173,11 +139,20 @@ export default function MyInvestments() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {investments.map((inv) => (
-                  <tr key={inv._id} className="hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => navigate(`/admin/investments/${inv._id}`)}>
-                    <td className="px-6 py-4 whitespace-nowrap"><span className="text-sm font-semibold text-cyan-600">{inv.refNumber}</span></td>
-                    <td className="px-6 py-4 whitespace-nowrap"><span className="text-sm font-medium text-gray-900 capitalize">{inv?.project?.projectName || "Investment"}</span></td>
-                    <td className="px-6 py-4 whitespace-nowrap"><div className="text-sm font-bold text-gray-900">{formatCurrency(inv.amount)}</div></td>
-                    <td className="px-6 py-4 whitespace-nowrap"><div className="text-sm text-gray-900">{inv.interestRatePerAnnum ?? inv.roi}%</div></td>
+                  <tr key={inv.id || inv._id} className="hover:bg-gray-50 transition-colors cursor-pointer"
+                    onClick={() => navigate(`/investments/${inv.id || inv._id}`)}>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="text-sm font-semibold text-cyan-600">{inv.refNumber}</span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="text-sm font-medium text-gray-900 capitalize">{inv.projectData?.projectName || inv.project?.projectName || "Investment"}</span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm font-bold text-gray-900">{formatCurrency(inv.amount)}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">{inv.interestRatePerAnnum ?? inv.roi}%</div>
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <p className="text-sm text-gray-600">{inv.tenure || 0} Month(s)</p>
                       <p className="text-xs text-gray-500">{formatDate(inv.startDate)} - {formatDate(inv.endDate)}</p>
@@ -220,8 +195,8 @@ export default function MyInvestments() {
           {paymentsLoading ? (
             <Skeleton.Table rows={3} />
           ) : payments.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="w-full">
+            <div className="overflow-x-auto -mx-6">
+              <table className="w-full text-sm min-w-[500px]">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Investment</th>
@@ -233,11 +208,19 @@ export default function MyInvestments() {
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {payments.map((payment) => (
-                    <tr key={payment._id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap"><div className="text-sm font-medium text-gray-900">{payment.investment?.refNumber || "--"}</div></td>
-                      <td className="px-6 py-4 whitespace-nowrap"><div className="text-sm font-bold text-gray-900">{formatCurrency(payment.amount)}</div></td>
-                      <td className="px-6 py-4 whitespace-nowrap"><p className="text-sm text-gray-900">{formatDate(payment.paymentDate)}</p></td>
-                      <td className="px-6 py-4 whitespace-nowrap"><p className="text-sm text-gray-900">{formatDate(payment.dueDate)}</p></td>
+                    <tr key={payment.id || payment._id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">{payment.investmentRel?.refNumber || payment.investment?.refNumber || "--"}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-bold text-gray-900">{formatCurrency(payment.amount)}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <p className="text-sm text-gray-900">{formatDate(payment.paymentDate)}</p>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <p className="text-sm text-gray-900">{formatDate(payment.dueDate)}</p>
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <Badge variant={getPaymentStatusColor(payment.status)}>{payment.status || "--"}</Badge>
                       </td>

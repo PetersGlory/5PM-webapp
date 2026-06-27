@@ -107,7 +107,7 @@ export default function InvestmentDetail() {
               </div>
               <div>
                 <p className="text-sm uppercase tracking-[0.25em] text-cyan-100">Investment Record</p>
-                <h2 className="mt-2 text-3xl font-bold capitalize md:text-4xl">{investment?.project?.projectName?.projectName || "--"}</h2>
+                <h2 className="mt-2 text-3xl font-bold capitalize md:text-4xl">{investment?.projectData?.projectName || investment?.project?.projectName || "--"}</h2>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4 rounded-2xl bg-white/10 p-5 backdrop-blur-sm sm:min-w-[320px]">

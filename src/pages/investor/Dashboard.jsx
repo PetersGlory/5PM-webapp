@@ -167,13 +167,13 @@ function Dashboard() {
       </div>
 
       <div className="grid md:grid-cols-3 gap-6 mb-8">
-        <a href="https://vestitudepartnersltd.com" target="_blank" className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all group border border-gray-100 shadow-sm flex flex-col items-center justify-center h-full">
+        <Link href="/marketplace" className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all group border border-gray-100 shadow-sm flex flex-col items-center justify-center h-full">
           <div className="w-12 h-12 mx-auto mb-4 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors shrink-0">
             <Globe className="text-blue-600" size={24} />
           </div>
           <h3 className="font-semibold text-gray-900 mb-1">Find Opportunities</h3>
           <p className="text-sm text-gray-600">Discover new investments</p>
-        </a>
+        </Link>
         <Link to="/wallet" className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all group border border-gray-100 shadow-sm flex flex-col items-center justify-center h-full">
           <div className="w-12 h-12 mx-auto mb-4 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors shrink-0">
             <Wallet className="text-green-600" size={24} />

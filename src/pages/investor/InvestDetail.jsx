@@ -19,9 +19,7 @@ export default function InvestDetail() {
       try {
         const data = await investmentApi.getInvestmentDetails(id);
         setInvestment(data?.data || data);
-      } catch (err) {
-        setInvestment(null);
-      } finally { setLoading(false); }
+      } catch { setInvestment(null); } finally { setLoading(false); }
     };
     if (id) fetch();
   }, [id]);
@@ -31,10 +29,9 @@ export default function InvestDetail() {
       try {
         setPaymentsLoading(true);
         const data = await investmentApi.getInvestmentPayments(id);
-        setPayments(Array.isArray(data) ? data : data?.data ?? []);
-      } catch (err) {
-        setPayments([]);
-      } finally { setPaymentsLoading(false); }
+        const paymentsData = data?.data || data;
+        setPayments(Array.isArray(paymentsData) ? paymentsData : []);
+      } catch { setPayments([]); } finally { setPaymentsLoading(false); }
     };
     if (id) fetchPayments();
   }, [id]);
@@ -76,7 +73,7 @@ export default function InvestDetail() {
       <Card>
         <div className="flex items-start justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{investment.project?.projectName || "Investment"}</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{investment.projectData?.projectName || investment.project?.projectName || "Investment"}</h1>
             <p className="text-sm text-gray-500 mt-1">Ref: <span className="font-semibold text-cyan-600">{investment.refNumber || "--"}</span></p>
           </div>
           <Badge variant={statusVariant(investment.status)}>{investment.status || "Unknown"}</Badge>
@@ -122,23 +119,23 @@ export default function InvestDetail() {
         {paymentsLoading ? (
           <Skeleton.Table rows={4} />
         ) : payments.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+          <div className="overflow-x-auto -mx-6">
+            <table className="w-full text-sm min-w-[400px]">
               <thead>
                 <tr className="border-b border-gray-100 text-xs text-gray-400 uppercase tracking-[0.18em]">
-                  <th className="text-left pb-3 font-semibold">Amount</th>
-                  <th className="text-left pb-3 font-semibold">Payment Date</th>
-                  <th className="text-left pb-3 font-semibold">Due Date</th>
-                  <th className="text-right pb-3 font-semibold">Status</th>
+                  <th className="text-left pb-3 font-semibold px-6">Amount</th>
+                  <th className="text-left pb-3 font-semibold px-6">Payment Date</th>
+                  <th className="text-left pb-3 font-semibold px-6">Due Date</th>
+                  <th className="text-right pb-3 font-semibold px-6">Status</th>
                 </tr>
               </thead>
               <tbody>
                 {payments.map((p, i) => (
-                  <tr key={p._id || i} className="border-b border-gray-100 last:border-0">
-                    <td className="py-3 font-semibold text-gray-900">{formatNaira(p.amount)}</td>
-                    <td className="py-3 text-gray-600">{formatDate(p.paymentDate)}</td>
-                    <td className="py-3 text-gray-600">{formatDate(p.dueDate)}</td>
-                    <td className="py-3 text-right">
+                  <tr key={p.id || p._id || i} className="border-b border-gray-100 last:border-0">
+                    <td className="py-3 font-semibold text-gray-900 px-6">{formatNaira(p.amount)}</td>
+                    <td className="py-3 text-gray-600 px-6">{formatDate(p.paymentDate)}</td>
+                    <td className="py-3 text-gray-600 px-6">{formatDate(p.dueDate)}</td>
+                    <td className="py-3 text-right px-6">
                       <Badge variant={statusVariant(p.status)}>{p.status || "--"}</Badge>
                     </td>
                   </tr>
