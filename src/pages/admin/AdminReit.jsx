@@ -6,7 +6,7 @@ import { Card, Skeleton, Badge, Button, Modal, Input } from "../../components/co
 const formatNaira = (amount) => "₦" + (amount || 0).toLocaleString("en-NG");
 const formatDate = (date) => date ? new Date(date).toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" }) : "--";
 
-const defaultForm = { name: "", description: "", totalShares: "", sharePrice: "", annualYield: "12" };
+const defaultForm = { name: "", description: "", totalShares: "", sharePrice: "", annualYield: "3.5" };
 
 export default function AdminReit() {
   const [pools, setPools] = useState([]);

@@ -80,10 +80,10 @@ export const walletApi = {
   getBalance: () => api.get('/wallet/balance').then(r => r.data),
   getTransactionHistory: (limit = 20, offset = 0) =>
     api.get(`/wallet/transactions?limit=${limit}&offset=${offset}`).then(r => r.data),
-  fundWallet: (amount) => api.post('/wallet/fund', { amount }).then(r => r.data),
+  fundWallet: (amount, currency = 'NGN') => api.post('/wallet/fund', { amount, currency }).then(r => r.data),
   requestWithdrawal: () => api.post('/wallet/withdraw-request').then(r => r.data),
-  withdrawFunds: (amount, bankAccount) =>
-    api.post('/wallet/withdraw', { amount, bankAccount }).then(r => r.data),
+  withdrawFunds: (amount, bankAccount, currency = 'NGN') =>
+    api.post('/wallet/withdraw', { amount, bankAccount, currency }).then(r => r.data),
 };
 
 // --- KYC ---

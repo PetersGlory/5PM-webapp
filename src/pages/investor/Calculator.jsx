@@ -4,8 +4,8 @@ import { Card, Skeleton } from "../../components/common";
 
 function Calculator() {
   const { user } = useAuthStore();
-  const [principal, setPrincipal] = useState(1000000);
-  const [rate, setRate] = useState(15);
+  const [principal, setPrincipal] = useState(10000000);
+  const [rate, setRate] = useState(3.5);
   const [duration, setDuration] = useState(12);
   const [result, setResult] = useState(null);
 
@@ -37,7 +37,7 @@ function Calculator() {
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">Principal Amount (NGN)</label>
-              <input type="range" min="100000" max="50000000" step="100000" value={principal} onChange={(e) => setPrincipal(parseInt(e.target.value))}
+              <input type="range" min="10000000" max="100000000" step="1000000" value={principal} onChange={(e) => setPrincipal(parseInt(e.target.value))}
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-500" />
               <div className="mt-3 p-4 bg-gray-50 rounded-lg">
                 <input type="number" value={principal} onChange={(e) => setPrincipal(parseInt(e.target.value) || 0)}
@@ -46,7 +46,7 @@ function Calculator() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">Expected Annual Return Rate (%)</label>
-              <input type="range" min="5" max="50" step="0.5" value={rate} onChange={(e) => setRate(parseFloat(e.target.value))}
+              <input type="range" min="1" max="10" step="0.1" value={rate} onChange={(e) => setRate(parseFloat(e.target.value))}
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-500" />
               <div className="mt-3 p-4 bg-gray-50 rounded-lg">
                 <input type="number" value={rate} onChange={(e) => setRate(parseFloat(e.target.value) || 0)}

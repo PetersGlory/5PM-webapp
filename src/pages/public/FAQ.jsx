@@ -12,7 +12,7 @@ const faqs = [
   {
     category: "Investments",
     items: [
-      { q: "What is the minimum investment amount?", a: "Minimum investments start from ₦50,000 for Wealth Plans, ₦100,000 for the Nexus Income Vault, and ₦500,000 for Fractional Real Estate." },
+      { q: "What is the minimum investment amount?", a: "All investment products start from ₦10,000,000" },
       { q: "How are my returns calculated?", a: "Returns are calculated based on the specific terms of each investment product. The expected ROI is clearly stated before you invest." },
       { q: "Can I withdraw my investment early?", a: "Early withdrawal terms depend on the specific investment product. Some products allow early withdrawal with penalties, while others require holding until maturity." },
     ],

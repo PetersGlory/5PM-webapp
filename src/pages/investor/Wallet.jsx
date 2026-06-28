@@ -1,12 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
-import { ArrowUpRight, ArrowDownLeft, Banknote, DollarSign, Filter, X, CheckCircle2, BanknoteIcon, ChevronDown, Send, Copy } from "lucide-react";
+import { ArrowUpRight, ArrowDownLeft, Filter, CheckCircle2, Copy } from "lucide-react";
 import { dashboardApi, userApi, walletApi } from "../../services/api";
 import useAuthStore from "../../store/authStore";
 import useWalletStore from "../../store/walletStore";
 import { Card, Skeleton, Badge, Button, Modal, Input } from "../../components/common";
 
-const formatNaira = (amount) => "₦" + Math.abs(amount || 0).toLocaleString("en-NG");
-const formatUSD = (amount) => "$" + Math.abs(amount || 0).toLocaleString("en-US");
+const CURRENCIES = [
+  { value: "NGN", label: "NGN", symbol: "₦", format: (v) => "₦" + Math.abs(v || 0).toLocaleString("en-NG") },
+  { value: "USD", label: "USD", symbol: "$", format: (v) => "$" + Math.abs(v || 0).toLocaleString("en-US", { minimumFractionDigits: 2 }) },
+  { value: "USDT", label: "USDT", symbol: "₮", format: (v) => "₮" + Math.abs(v || 0).toLocaleString("en-US", { minimumFractionDigits: 2 }) },
+];
+
 const formatDate = (date) => date ? new Date(date).toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" }) : "--";
 
 const FILTERS = [
@@ -19,16 +23,19 @@ const FILTERS = [
 
 function DepositModal({ isOpen, onClose, onDepositComplete }) {
   const [amount, setAmount] = useState("");
+  const [currency, setCurrency] = useState("NGN");
   const [step, setStep] = useState("form");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState("");
 
+  const cur = CURRENCIES.find((c) => c.value === currency);
+
   const handleDeposit = async (e) => {
     e.preventDefault();
     setLoading(true); setError("");
     try {
-      await walletApi.fundWallet(Number(amount));
+      await walletApi.fundWallet(Number(amount), currency);
       setStep("confirmation");
     } catch (err) {
       setError(err?.response?.data?.message || err.message || "Deposit failed");
@@ -41,12 +48,20 @@ function DepositModal({ isOpen, onClose, onDepositComplete }) {
     setTimeout(() => setCopied(""), 2000);
   };
 
+  const reset = () => { onClose(); setStep("form"); setAmount(""); setCurrency("NGN"); setError(""); };
+
   return (
-    <Modal isOpen={isOpen} onClose={() => { onClose(); setStep("form"); setAmount(""); setError(""); }}
-      title={step === "form" ? "Fund Wallet" : "Deposit Request Submitted"} size="md">
+    <Modal isOpen={isOpen} onClose={reset} title={step === "form" ? "Fund Wallet" : "Deposit Request Submitted"} size="md">
       {step === "form" ? (
         <form onSubmit={handleDeposit} className="space-y-4">
-          <Input label="Amount (NGN)" type="number" value={amount} onChange={(e) => setAmount(e.target.value)}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Currency</label>
+            <select value={currency} onChange={(e) => setCurrency(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none">
+              {CURRENCIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
+            </select>
+          </div>
+          <Input label={`Amount (${currency})`} type="number" value={amount} onChange={(e) => setAmount(e.target.value)}
             placeholder="e.g., 100000" required min="1000" />
           <div className="bg-brand-50 border border-brand-200 rounded-xl p-4 text-sm text-brand-800 space-y-2">
             <p className="font-semibold mb-1">Bank Transfer Details</p>
@@ -66,10 +81,20 @@ function DepositModal({ isOpen, onClose, onDepositComplete }) {
                 className="text-brand-600 hover:text-brand-800 p-1">{copied === "name" ? <CheckCircle2 size={14} /> : <Copy size={14} />}</button>
             </div>
           </div>
-          <p className="text-xs text-gray-500">After transfer, your wallet will be credited once the payment is confirmed by our admin team.</p>
+          {currency === "USDT" && (
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm text-blue-800 space-y-2">
+              <p className="font-semibold mb-1">USDT Wallet Address</p>
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs break-all">0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18</span>
+                <button type="button" onClick={() => copyToClipboard("0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18", "usdt")}
+                  className="text-blue-600 hover:text-blue-800 p-1">{copied === "usdt" ? <CheckCircle2 size={14} /> : <Copy size={14} />}</button>
+              </div>
+            </div>
+          )}
+          <p className="text-xs text-gray-500">After transfer, your wallet will be credited once the payment is confirmed.</p>
           {error && <p className="text-sm text-red-600">{error}</p>}
           <Button type="submit" className="w-full" disabled={loading || !amount}>
-            {loading ? "Processing..." : `Deposit ${formatNaira(Number(amount) || 0)}`}
+            {loading ? "Processing..." : `Deposit ${cur?.format(Number(amount) || 0)}`}
           </Button>
         </form>
       ) : (
@@ -78,44 +103,63 @@ function DepositModal({ isOpen, onClose, onDepositComplete }) {
             <CheckCircle2 className="text-green-600" size={32} />
           </div>
           <h3 className="text-lg font-semibold text-gray-900">Deposit Request Submitted</h3>
-          <p className="text-sm text-gray-600">Transfer {formatNaira(Number(amount))} to the account details above. Your wallet will be credited once confirmed.</p>
-          <Button onClick={() => { onClose(); setStep("form"); setAmount(""); onDepositComplete?.(); }} variant="secondary">Done</Button>
+          <p className="text-sm text-gray-600">Transfer {cur?.format(Number(amount))} using the details above. Your wallet will be credited once confirmed.</p>
+          <Button onClick={() => { reset(); onDepositComplete?.(); }} variant="secondary">Done</Button>
         </div>
       )}
     </Modal>
   );
 }
 
-function WithdrawalModal({ isOpen, onClose, ngnBalance, onWithdrawComplete }) {
+function WithdrawalModal({ isOpen, onClose, balances, onWithdrawComplete }) {
   const [amount, setAmount] = useState("");
+  const [currency, setCurrency] = useState("NGN");
   const [bankName, setBankName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [accountName, setAccountName] = useState("");
+  const [walletAddress, setWalletAddress] = useState("");
   const [step, setStep] = useState("form");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const cur = CURRENCIES.find((c) => c.value === currency);
+  const maxBalance = currency === "USD" ? balances.usd : currency === "USDT" ? balances.usdt : balances.ngn;
 
   const handleWithdraw = async (e) => {
     e.preventDefault();
     setLoading(true); setError("");
     try {
-      await walletApi.withdrawFunds(Number(amount), { bankName, accountNumber, accountName });
+      await walletApi.withdrawFunds(Number(amount), { bankName, accountNumber, accountName, walletAddress }, currency);
       setStep("confirmation");
     } catch (err) {
       setError(err?.response?.data?.message || err.message || "Withdrawal failed");
     } finally { setLoading(false); }
   };
 
+  const reset = () => { onClose(); setStep("form"); setAmount(""); setCurrency("NGN"); setError(""); };
+
   return (
-    <Modal isOpen={isOpen} onClose={() => { onClose(); setStep("form"); setAmount(""); setError(""); }}
-      title="Withdraw Funds" size="md">
+    <Modal isOpen={isOpen} onClose={reset} title="Withdraw Funds" size="md">
       {step === "form" ? (
         <form onSubmit={handleWithdraw} className="space-y-4">
-          <Input label="Amount (NGN)" type="number" value={amount} onChange={(e) => setAmount(e.target.value)}
-            placeholder="Enter amount" required min="1000" max={ngnBalance} />
-          <Input label="Bank Name" value={bankName} onChange={(e) => setBankName(e.target.value)} placeholder="e.g., GTBank" required />
-          <Input label="Account Number" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, "").slice(0, 10))} placeholder="0123456789" required maxLength={10} />
-          <Input label="Account Name" value={accountName} onChange={(e) => setAccountName(e.target.value)} placeholder="Enter account name" required />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Currency</label>
+            <select value={currency} onChange={(e) => setCurrency(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none">
+              {CURRENCIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
+            </select>
+          </div>
+          <Input label={`Amount (${currency})`} type="number" value={amount} onChange={(e) => setAmount(e.target.value)}
+            placeholder="Enter amount" required min="1000" max={maxBalance} />
+          {currency !== "USDT" ? (
+            <>
+              <Input label="Bank Name" value={bankName} onChange={(e) => setBankName(e.target.value)} placeholder="e.g., GTBank" required />
+              <Input label="Account Number" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, "").slice(0, 10))} placeholder="0123456789" required maxLength={10} />
+              <Input label="Account Name" value={accountName} onChange={(e) => setAccountName(e.target.value)} placeholder="Enter account name" required />
+            </>
+          ) : (
+            <Input label="USDT Wallet Address" value={walletAddress} onChange={(e) => setWalletAddress(e.target.value)} placeholder="Enter USDT wallet address" required />
+          )}
           {error && <p className="text-sm text-red-600">{error}</p>}
           <Button type="submit" className="w-full" disabled={loading || !amount}>
             {loading ? "Processing..." : "Withdraw"}
@@ -127,17 +171,52 @@ function WithdrawalModal({ isOpen, onClose, ngnBalance, onWithdrawComplete }) {
             <CheckCircle2 className="text-green-600" size={32} />
           </div>
           <h3 className="text-lg font-semibold text-gray-900">Withdrawal Request Submitted</h3>
-          <p className="text-sm text-gray-600">{formatNaira(Number(amount))} will be sent to {accountName} ({bankName}) once approved.</p>
-          <Button onClick={() => { onClose(); setStep("form"); setAmount(""); onWithdrawComplete?.(); }} variant="secondary">Done</Button>
+          <p className="text-sm text-gray-600">{cur?.format(Number(amount))} will be sent to your account once approved.</p>
+          <Button onClick={() => { reset(); onWithdrawComplete?.(); }} variant="secondary">Done</Button>
         </div>
       )}
     </Modal>
   );
 }
 
+const walletGradients = {
+  NGN: "from-brand-500 to-brand-700",
+  USD: "from-navy-500 to-navy-700",
+  USDT: "from-emerald-500 to-emerald-700",
+};
+
+const walletAccent = {
+  NGN: "text-cyan-100",
+  USD: "text-blue-200",
+  USDT: "text-emerald-100",
+};
+
+function WalletCard({ currency, balance, onDeposit, onWithdraw }) {
+  const cur = CURRENCIES.find((c) => c.value === currency);
+  return (
+    <div className={`rounded-2xl overflow-hidden bg-gradient-to-br ${walletGradients[currency]} text-white shadow-lg`}>
+      <div className="p-4 md:p-6">
+        <p className={`text-xs md:text-sm uppercase tracking-[0.18em] ${walletAccent[currency]} mb-1`}>{currency} Wallet</p>
+        <p className="text-2xl md:text-4xl font-bold break-all">{cur?.format(balance)}</p>
+        <p className={`text-xs md:text-sm ${walletAccent[currency]} mt-2`}>Available balance</p>
+      </div>
+      <div className="flex border-t border-white/20">
+        <button onClick={onDeposit}
+          className="flex-1 flex items-center justify-center gap-1 md:gap-2 py-2.5 md:py-3 text-xs md:text-sm font-semibold text-white hover:bg-white/10 transition-colors">
+          <ArrowDownLeft size={14} /> Deposit
+        </button>
+        <button onClick={onWithdraw}
+          className="flex-1 flex items-center justify-center gap-1 md:gap-2 py-2.5 md:py-3 text-xs md:text-sm font-semibold text-white hover:bg-white/10 transition-colors border-l border-white/20">
+          <ArrowUpRight size={14} /> Withdraw
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function Wallet() {
   const { user } = useAuthStore();
-  const { ngnBalance, usdBalance, setBalances } = useWalletStore();
+  const { ngnBalance, usdBalance, usdtBalance, setBalances } = useWalletStore();
   const [stats, setStats] = useState({});
   const [payments, setPayments] = useState([]);
   const [paymentsLoading, setPaymentsLoading] = useState(true);
@@ -145,7 +224,9 @@ export default function Wallet() {
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("all");
   const [showDeposit, setShowDeposit] = useState(false);
+  const [depositCurrency, setDepositCurrency] = useState("NGN");
   const [showWithdraw, setShowWithdraw] = useState(false);
+  const [withdrawCurrency, setWithdrawCurrency] = useState("NGN");
 
   const fetchUserPayments = useCallback(async (userId) => {
     if (!userId) { setPayments([]); setPaymentsLoading(false); return; }
@@ -171,9 +252,9 @@ export default function Wallet() {
       ]);
       setStats(dashboardData || {});
       if (balanceData) {
-        setBalances(parseFloat(balanceData.balance) || 0, balanceData.usdBalance || 0);
+        setBalances(parseFloat(balanceData.balance) || 0, balanceData.usdBalance || 0, balanceData.usdtBalance || 0);
       } else {
-        setBalances(dashboardData?.walletBalance || dashboardData?.totalInvested || 0, 0);
+        setBalances(dashboardData?.walletBalance || dashboardData?.totalInvested || 0, 0, 0);
       }
       await fetchUserPayments(user?.id || user?._id);
     } catch {
@@ -200,6 +281,8 @@ export default function Wallet() {
     );
   }
 
+  const balances = { ngn: ngnBalance, usd: usdBalance, usdt: usdtBalance };
+
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-6">
       <div className="mb-4">
@@ -207,54 +290,30 @@ export default function Wallet() {
         <p className="text-gray-600">Manage your wallet and transactions</p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-        <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-lg">
-          <div className="p-4 md:p-6">
-            <p className="text-xs md:text-sm uppercase tracking-[0.18em] text-cyan-100 mb-1">NGN Wallet</p>
-            <p className="text-2xl md:text-4xl font-bold break-all">{formatNaira(ngnBalance)}</p>
-            <p className="text-xs md:text-sm text-cyan-100 mt-2">Available balance</p>
-          </div>
-          <div className="flex border-t border-white/20">
-            <button onClick={() => setShowDeposit(true)}
-              className="flex-1 flex items-center justify-center gap-1 md:gap-2 py-2.5 md:py-3 text-xs md:text-sm font-semibold text-white hover:bg-white/10 transition-colors">
-              <ArrowDownLeft size={14} /> Deposit
-            </button>
-            <button onClick={() => setShowWithdraw(true)}
-              className="flex-1 flex items-center justify-center gap-1 md:gap-2 py-2.5 md:py-3 text-xs md:text-sm font-semibold text-white hover:bg-white/10 transition-colors border-l border-white/20">
-              <ArrowUpRight size={14} /> Withdraw
-            </button>
-          </div>
-        </div>
-
-        <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-navy-500 to-navy-700 text-white shadow-lg">
-          <div className="p-4 md:p-6">
-            <p className="text-xs md:text-sm uppercase tracking-[0.18em] text-blue-200 mb-1">USD Wallet</p>
-            <p className="text-2xl md:text-4xl font-bold break-all">{formatUSD(usdBalance)}</p>
-            <p className="text-xs md:text-sm text-blue-200 mt-2">Available balance</p>
-          </div>
-          <div className="flex border-t border-white/20">
-            <button className="flex-1 flex items-center justify-center gap-1 md:gap-2 py-2.5 md:py-3 text-xs md:text-sm font-semibold text-white opacity-60 cursor-not-allowed">
-              <ArrowDownLeft size={14} /> Deposit
-            </button>
-            <button className="flex-1 flex items-center justify-center gap-1 md:gap-2 py-2.5 md:py-3 text-xs md:text-sm font-semibold text-white opacity-60 cursor-not-allowed border-l border-white/20">
-              <ArrowUpRight size={14} /> Withdraw
-            </button>
-          </div>
-        </div>
+      <div className="grid md:grid-cols-3 gap-4 md:gap-6">
+        <WalletCard currency="NGN" balance={ngnBalance}
+          onDeposit={() => { setDepositCurrency("NGN"); setShowDeposit(true); }}
+          onWithdraw={() => { setWithdrawCurrency("NGN"); setShowWithdraw(true); }} />
+        <WalletCard currency="USD" balance={usdBalance}
+          onDeposit={() => { setDepositCurrency("USD"); setShowDeposit(true); }}
+          onWithdraw={() => { setWithdrawCurrency("USD"); setShowWithdraw(true); }} />
+        <WalletCard currency="USDT" balance={usdtBalance}
+          onDeposit={() => { setDepositCurrency("USDT"); setShowDeposit(true); }}
+          onWithdraw={() => { setWithdrawCurrency("USDT"); setShowWithdraw(true); }} />
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
         <div className="bg-white rounded-xl p-3 md:p-4 border border-gray-100">
           <p className="text-xs uppercase tracking-wide text-gray-500">Total Invested</p>
-          <p className="text-base md:text-xl font-bold text-gray-900 mt-1">{formatNaira(stats?.totalInvested)}</p>
+          <p className="text-base md:text-xl font-bold text-gray-900 mt-1">{CURRENCIES[0].format(stats?.totalInvested)}</p>
         </div>
         <div className="bg-white rounded-xl p-3 md:p-4 border border-gray-100">
           <p className="text-xs uppercase tracking-wide text-gray-500">Total Interest</p>
-          <p className="text-base md:text-xl font-bold text-gray-900 mt-1">{formatNaira(stats?.totalInterestEarned)}</p>
+          <p className="text-base md:text-xl font-bold text-gray-900 mt-1">{CURRENCIES[0].format(stats?.totalInterestEarned)}</p>
         </div>
         <div className="col-span-2 md:col-span-1 bg-white rounded-xl p-3 md:p-4 border border-gray-100">
           <p className="text-xs uppercase tracking-wide text-gray-500">Payment Recorded</p>
-          <p className="text-base md:text-xl font-bold text-gray-900 mt-1">{formatNaira(paymentTotals.totalPaymentAmountRecorded)}</p>
+          <p className="text-base md:text-xl font-bold text-gray-900 mt-1">{CURRENCIES[0].format(paymentTotals.totalPaymentAmountRecorded)}</p>
         </div>
       </div>
 
@@ -307,7 +366,7 @@ export default function Wallet() {
                       </div>
                     </td>
                     <td className={`py-3 text-right font-semibold whitespace-nowrap px-6 ${Math.abs(txn.amount) < 0 ? "text-red-600" : "text-gray-900"}`}>
-                      {formatNaira(txn.amount)}
+                      {CURRENCIES[0].format(txn.amount)}
                     </td>
                     <td className="py-3 text-right whitespace-nowrap px-6">
                       <Badge variant={txn.status === "verified" ? "success" : txn.status === "pending" ? "warning" : txn.status === "failed" ? "danger" : "default"}>
@@ -324,7 +383,7 @@ export default function Wallet() {
 
       <DepositModal isOpen={showDeposit} onClose={() => setShowDeposit(false)} onDepositComplete={fetchData} />
       <WithdrawalModal isOpen={showWithdraw} onClose={() => setShowWithdraw(false)}
-        ngnBalance={ngnBalance} onWithdrawComplete={fetchData} />
+        balances={balances} onWithdrawComplete={fetchData} />
     </div>
   );
 }

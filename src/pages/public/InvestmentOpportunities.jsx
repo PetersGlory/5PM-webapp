@@ -9,8 +9,8 @@ const products = [
     name: "Nexus Income Vault",
     description: "A stable fixed-income investment product designed for investors seeking predictable monthly returns with capital preservation.",
     features: ["Monthly interest payments", "Capital guaranteed at maturity", "Low minimum investment"],
-    roi: "12–18% p.a.",
-    min: "₦100,000",
+    roi: "3.5% monthly",
+    min: "₦10,000,000",
     duration: "6–24 months",
   },
   {
@@ -18,8 +18,8 @@ const products = [
     name: "Fractional Real Estate",
     description: "Own a fractional share of premium residential and commercial real estate properties across Nigeria's fastest-growing cities.",
     features: ["Property-backed security", " quarterly rental distributions", "Capital appreciation potential"],
-    roi: "15–25% p.a.",
-    min: "₦500,000",
+    roi: "3.5% monthly",
+    min: "₦10,000,000",
     duration: "12–36 months",
   },
   {
@@ -27,8 +27,8 @@ const products = [
     name: "Wealth Plans",
     description: "Diversified portfolio investment plans tailored to your financial goals, from short-term gains to long-term wealth building.",
     features: ["Professionally managed portfolios", "Risk-adjusted returns", "Flexible tenure options"],
-    roi: "10–20% p.a.",
-    min: "₦50,000",
+    roi: "3.5% monthly",
+    min: "₦10,000,000",
     duration: "3–60 months",
   },
 ];

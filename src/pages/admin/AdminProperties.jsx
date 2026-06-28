@@ -121,7 +121,7 @@ export default function AdminProperties() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input label="Total Units" type="number" value={form.totalUnits} onChange={(e) => setForm({ ...form, totalUnits: e.target.value })} placeholder="e.g. 100" />
-            <Input label="Expected ROI (%)" type="number" value={form.expectedROI} onChange={(e) => setForm({ ...form, expectedROI: e.target.value })} placeholder="e.g. 15" />
+            <Input label="Expected ROI (%)" type="number" value={form.expectedROI} onChange={(e) => setForm({ ...form, expectedROI: e.target.value })} placeholder="e.g. 3.5" />
           </div>
           <Input label="Location" value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} placeholder="Property location" />
           <Input label="Duration (months)" type="number" value={form.duration} onChange={(e) => setForm({ ...form, duration: e.target.value })} placeholder="e.g. 12" />

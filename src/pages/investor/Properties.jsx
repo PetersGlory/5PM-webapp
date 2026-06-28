@@ -82,7 +82,7 @@ export default function Properties() {
                   </div>
                   <div>
                     <p className="text-xs text-gray-500">ROI</p>
-                    <p className="text-sm font-bold text-brand-500">{property.roi || property.expectedROI || "15-25%"} </p>
+                    <p className="text-sm font-bold text-brand-500">"3.5%" </p>
                   </div>
                   <div>
                     <p className="text-xs text-gray-500">Units Left</p>

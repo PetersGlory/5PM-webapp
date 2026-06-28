@@ -83,7 +83,7 @@ export default function Portfolio() {
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-5">
           <div className="flex items-center gap-2 text-xs text-gray-500 mb-1"><Percent size={14} className="text-brand-500" />Avg. ROI</div>
-          <p className="text-xl md:text-2xl font-bold text-gray-900">16.5%</p>
+          <p className="text-xl md:text-2xl font-bold text-gray-900">3.5%</p>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-5">
           <div className="flex items-center gap-2 text-xs text-gray-500 mb-1"><Shield size={14} className="text-navy-500" />Risk Score</div>

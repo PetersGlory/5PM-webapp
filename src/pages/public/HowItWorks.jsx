@@ -7,7 +7,7 @@ const steps = [
   { icon: UserPlus, title: "Create Your Account", description: "Sign up with your email and basic information. It takes less than 2 minutes to get started on the platform." },
   { icon: Shield, title: "Complete KYC Verification", description: "Verify your identity by providing your personal information, BVN/NIN, and uploading required documents. This ensures platform security and regulatory compliance." },
   { icon: Wallet, title: "Fund Your Wallet", description: "Deposit funds into your investment wallet via bank transfer. Your wallet is your gateway to all investment opportunities on the platform." },
-  { icon: TrendingUp, title: "Choose Your Investment", description: "Browse our curated investment products — from fixed-income vaults to fractional real estate. Compare ROI, duration, and minimum requirements." },
+  { icon: TrendingUp, title: "Choose Your Investment", description: "Browse our curated investment products — from fixed-income vaults to fractional real estate. Compare duration and minimum requirements." },
   { icon: BarChart3, title: "Track & Earn Returns", description: "Monitor your portfolio performance, receive distributions directly to your wallet, and reinvest or withdraw as you grow your wealth." },
 ];
 

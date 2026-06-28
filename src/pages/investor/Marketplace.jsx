@@ -6,11 +6,7 @@ import useAuthStore from "../../store/authStore";
 import { Card, Skeleton, Badge, Button, Modal, Input } from "../../components/common";
 
 const formatNaira = (amount) => "₦" + (amount || 0).toLocaleString("en-NG");
-const formatROI = (roi) => {
-  if (!roi) return "--";
-  const [min, max] = typeof roi === "string" ? roi.split("-").map(Number) : [roi, null];
-  return max ? `${min}% - ${max}%` : `${min}%`;
-};
+const formatROI = (roi) => "3.5%";
 
 function InvestModal({ isOpen, onClose, product }) {
   const { user } = useAuthStore();

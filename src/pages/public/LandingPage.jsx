@@ -13,7 +13,7 @@ const products = [
     description: "Stable fixed-income investment with consistent returns.",
     roi: "3.5% monthly",
     roiLabel: "42–60% p.a.",
-    min: "₦100,000",
+    min: "₦10,000,000",
     duration: "12 months",
     tag: "Income Vault",
     tagClass: "bg-brand-100 text-brand-700",
@@ -24,7 +24,7 @@ const products = [
     description: "Own a piece of prime real estate with fractional ownership.",
     roi: "3.5% monthly",
     roiLabel: "42–60% p.a.",
-    min: "₦500,000",
+    min: "₦10,000,000",
     duration: "18 months",
     tag: "Real Estate",
     tagClass: "bg-blue-100 text-blue-700",
@@ -33,9 +33,9 @@ const products = [
   {
     name: "Wealth Plans",
     description: "Long-term wealth building with diversified portfolios.",
-    roi: "3.5% – 5% monthly",
+    roi: "3.5% monthly",
     roiLabel: "42–60% p.a.",
-    min: "₦50,000",
+    min: "₦10,000,000",
     duration: "24 months",
     tag: "Structured",
     tagClass: "bg-purple-100 text-purple-700",
@@ -54,7 +54,7 @@ const testimonials = [
   {
     name: "Adaeze Okonkwo",
     location: "London, UK · Diaspora Investor",
-    text: "I invested ₦500,000 into the Lekki Estate fund from the UK. Within 14 months I received my 20% return — deposited straight into my wallet. This is the most transparent platform I've used.",
+    text: "I invested ₦500,000 into the Lekki Estate fund from the UK. Within 14 months I received my 20% return  deposited straight into my wallet. This is the most transparent platform I've used.",
     initials: "AO",
     avatarBg: "bg-purple-500",
   },
@@ -76,9 +76,9 @@ const testimonials = [
 
 const faqs = [
   { q: "What is 5PM Nexus Invest?", a: "5PM Nexus Invest is a fintech-powered digital wealth and investment platform that connects investors to professionally managed, asset-backed real estate and structured financial products in Nigeria." },
-  { q: "Is my investment safe?", a: "Every investment on our platform is tied to a real, tangible asset — real estate properties or structured financial instruments. We operate within regulatory guidelines and provide full document access to every investor." },
+  { q: "Is my investment safe?", a: "Every investment on our platform is tied to a real, tangible asset  real estate properties or structured financial instruments. We operate within regulatory guidelines and provide full document access to every investor." },
   { q: "Can I invest from outside Nigeria?", a: "Absolutely. 5PM Nexus Invest is built for the diaspora. You can fund your wallet in USD, GBP, or EUR, and your returns are denominated in Naira. Full KYC and account management is available remotely." },
-  { q: "What is the minimum investment amount?", a: "Minimum investments vary by product. Wealth Plans start from ₦50,000, the Nexus Income Vault from ₦100,000, and Fractional Real Estate from ₦500,000. Each listing shows the minimum amount clearly." },
+  { q: "What is the minimum investment amount?", a: "All investment products start from ₦10,000,000" },
   { q: "How are returns paid out?", a: "Returns are paid directly into your wallet at maturity or on scheduled distribution dates, depending on the product. You'll receive a notification and can withdraw to your bank account or reinvest immediately." },
 ];
 
@@ -137,7 +137,7 @@ function LandingPage() {
               <div className="w-20 h-1 bg-brand-500 rounded-full mb-6" />
 
               <p className="text-gray-600 text-lg leading-relaxed mb-8 max-w-lg">
-                Invest in professionally managed, asset-backed real estate and structured financial products — from anywhere in the world. Transparent returns. Zero guesswork.
+                Invest in professionally managed, asset-backed real estate and structured financial products  from anywhere in the world. Transparent returns. Zero guesswork.
               </p>
 
               <div className="flex flex-wrap gap-4 mb-12">
@@ -270,7 +270,7 @@ function LandingPage() {
             {[
               {
                 icon: Shield, title: "Asset-Backed Security",
-                text: "Every investment is tied to real, tangible assets — real estate, structured products — so your capital is always backed by something real.",
+                text: "Every investment is tied to real, tangible assets  real estate, structured products  so your capital is always backed by something real.",
                 iconBg: "bg-brand-100", iconColor: "text-brand-500",
                 borderHover: "hover:border-brand-300",
               },
@@ -284,7 +284,7 @@ function LandingPage() {
               },
               {
                 icon: Globe, title: "Invest from Anywhere",
-                text: "Whether you're in Lagos, London, or Houston — open an account, complete KYC, and start investing in minutes. Full dashboard access on web & mobile.",
+                text: "Whether you're in Lagos, London, or Houston  open an account, complete KYC, and start investing in minutes. Full dashboard access on web & mobile.",
                 iconBg: "bg-blue-100", iconColor: "text-blue-500",
                 borderHover: "hover:border-blue-300",
               },
@@ -383,7 +383,7 @@ function LandingPage() {
               { step: "01", title: "Create Your Account", desc: "Sign up in minutes with your email, complete BVN/NIN verification, and upload your ID. Our KYC process is simple, secure, and fully digital.", checks: ["Email & Phone Verification", "BVN / NIN Check", "ID + Selfie Upload"], color: "bg-brand-500" },
               { step: "02", title: "Fund Your Wallet", desc: "Deposit funds via bank transfer, card, or mobile money. Your wallet balance is displayed in real-time. Diaspora investors can send in USD, GBP, or EUR.", checks: ["Bank Transfer · Card Payment", "USD · GBP · EUR accepted", "Instant wallet top-up"], color: "bg-navy-500" },
               { step: "03", title: "Pick an Investment", desc: "Browse the marketplace, review project documents, and invest in real estate or structured products that match your goals and risk appetite.", checks: ["Fractional Real Estate", "Income Vault Products", "Full document access"], color: "bg-brand-500" },
-              { step: "04", title: "Earn & Withdraw", desc: "Track your returns live on your dashboard. When distributions are paid, they land in your wallet instantly — withdraw anytime or reinvest to compound.", checks: ["Live ROI tracker", "Monthly statements", "Instant withdrawals"], color: "bg-navy-500" },
+              { step: "04", title: "Earn & Withdraw", desc: "Track your returns live on your dashboard. When distributions are paid, they land in your wallet instantly  withdraw anytime or reinvest to compound.", checks: ["Live ROI tracker", "Monthly statements", "Instant withdrawals"], color: "bg-navy-500" },
             ].map((item, i) => (
               <ScrollReveal key={i}>
                 <div className="flex items-start gap-6">

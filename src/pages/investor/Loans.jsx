@@ -15,7 +15,7 @@ const statusVariant = (s) => {
   }
 };
 
-const defaultForm = { amount: "", purpose: "", term: "12", interestRate: "10" };
+const defaultForm = { amount: "", purpose: "", term: "12", interestRate: "3.5" };
 
 export default function Loans() {
   const navigate = useNavigate();
@@ -106,7 +106,7 @@ export default function Loans() {
           <Input label="Loan Amount (₦)" type="number" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} placeholder="e.g. 500000" />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input label="Term (months)" type="number" value={form.term} onChange={(e) => setForm({ ...form, term: e.target.value })} placeholder="e.g. 12" />
-            <Input label="Interest Rate (%)" type="number" value={form.interestRate} onChange={(e) => setForm({ ...form, interestRate: e.target.value })} placeholder="e.g. 10" />
+            <Input label="Interest Rate (%)" type="number" value={form.interestRate} onChange={(e) => setForm({ ...form, interestRate: e.target.value })} placeholder="e.g. 3.5" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Purpose</label>
