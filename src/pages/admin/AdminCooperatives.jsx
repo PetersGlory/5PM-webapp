@@ -55,13 +55,13 @@ export default function AdminCooperatives() {
   });
 
   if (loading) {
-    return <div className="p-6 max-w-7xl mx-auto space-y-6"><Skeleton className="h-8 w-48" /><Skeleton.Table rows={5} /></div>;
+    return <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6"><Skeleton className="h-8 w-48" /><Skeleton.Table rows={5} /></div>;
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Cooperatives ({cooperatives.length})</h1>
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900">Cooperatives ({cooperatives.length})</h1>
         <Button onClick={() => setShowModal(true)} size="sm"><Plus size={16} /> Add Cooperative</Button>
       </div>
       <div className="relative max-w-md">
@@ -102,11 +102,11 @@ export default function AdminCooperatives() {
       <Modal isOpen={showModal} onClose={() => { setShowModal(false); setForm(defaultForm); }} title="Add Cooperative" size="lg">
         <div className="space-y-4">
           <Input label="Cooperative Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="e.g. Staff Cooperative Society" />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input label="Registration Number" value={form.registrationNumber} onChange={(e) => setForm({ ...form, registrationNumber: e.target.value })} placeholder="Reg. no." />
             <Input label="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="coop@example.com" />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input label="Phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="Phone number" />
             <Input label="Address" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} placeholder="Office address" />
           </div>

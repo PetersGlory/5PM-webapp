@@ -33,11 +33,11 @@ export default function AdminWallets() {
   const totalBalance = wallets.reduce((sum, w) => sum + (w.balance || 0), 0);
 
   if (loading) {
-    return <div className="p-6 max-w-7xl mx-auto space-y-6"><Skeleton className="h-8 w-48" /><Skeleton className="h-24 w-full" /><Skeleton.Table rows={6} /></div>;
+    return <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6"><Skeleton className="h-8 w-48" /><Skeleton className="h-24 w-full" /><Skeleton.Table rows={6} /></div>;
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6">
       <h1 className="text-xl md:text-2xl font-bold text-gray-900">Wallet Management</h1>
       <div className="bg-gradient-to-r from-brand-500 to-brand-700 rounded-xl p-6 text-white">
         <p className="text-sm text-cyan-100 mb-1">Total Wallet Balance</p>

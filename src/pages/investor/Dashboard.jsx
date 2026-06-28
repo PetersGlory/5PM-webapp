@@ -132,41 +132,37 @@ function Dashboard() {
 
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Good morning, {user?.firstName}</h1>
-        <p className="text-gray-600">Welcome back to your investment dashboard</p>
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-xl md:text-3xl font-bold text-gray-900">Good morning, {user?.firstName}</h1>
+        <p className="text-gray-600 text-sm md:text-base">Welcome back to your investment dashboard</p>
       </div>
 
-      <div className="bg-gradient-to-r from-brand-500 to-navy-500 rounded-2xl text-white px-7 py-8 mb-8 shadow-lg">
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col gap-1">
-            <p className="text-white/70 text-md font-medium tracking-wide">Total Amount Invested</p>
-            <div className="flex items-center gap-3 mt-1">
-              <h2 className="text-xl md:text-2xl font-bold tracking-tight">{formatCurrency(totalInvested)}</h2>
+      <div className="bg-gradient-to-r from-brand-500 to-navy-500 rounded-2xl text-white px-4 py-6 md:px-7 md:py-8 mb-6 md:mb-8 shadow-lg">
+        <div className="flex flex-col gap-2">
+          <p className="text-white/70 text-sm md:text-base font-medium tracking-wide">Total Amount Invested</p>
+          <h2 className="text-xl md:text-2xl font-bold tracking-tight">{formatCurrency(totalInvested)}</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3 mt-1 md:mt-3">
+            <div className="bg-white/10 rounded-lg px-3 py-2 md:px-4 md:py-2.5 backdrop-blur-sm">
+              <p className="text-white/60 text-xs md:text-sm font-medium mb-1">Total Interest Earned</p>
+              <p className="text-sm md:text-base font-bold">{formatCurrency(totalInterestEarned)}</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-3">
-              <div className="bg-white/10 rounded-lg px-4 py-2.5 backdrop-blur-sm">
-                <p className="text-white/60 text-[14px] font-medium mb-1">Total Interest Earned</p>
-                <p className="text-md font-bold">{formatCurrency(totalInterestEarned)}</p>
-              </div>
-              <div className="bg-white/10 rounded-lg px-4 py-2.5 backdrop-blur-sm">
-                <p className="text-white/60 text-[14px] font-medium mb-1">Total Repayment Recorded</p>
-                <p className="text-md font-bold">{formatCurrency(paymentTotals.totalPaymentAmountRecorded)}</p>
-              </div>
-              <div className="bg-white/10 rounded-lg px-4 py-2.5 backdrop-blur-sm">
-                <p className="text-white/60 text-[14px] font-medium mb-1">Total Due</p>
-                <p className="text-md font-bold">{formatCurrency(paymentTotals.totalDue)}</p>
-              </div>
-              <div className="bg-white/10 rounded-lg px-4 py-2.5 backdrop-blur-sm">
-                <p className="text-white/60 text-[14px] font-medium mb-1">Balance Left</p>
-                <p className="text-md font-bold">{formatCurrency(paymentTotals.balanceLeft)}</p>
-              </div>
+            <div className="bg-white/10 rounded-lg px-3 py-2 md:px-4 md:py-2.5 backdrop-blur-sm">
+              <p className="text-white/60 text-xs md:text-sm font-medium mb-1">Total Repayment Recorded</p>
+              <p className="text-sm md:text-base font-bold">{formatCurrency(paymentTotals.totalPaymentAmountRecorded)}</p>
+            </div>
+            <div className="bg-white/10 rounded-lg px-3 py-2 md:px-4 md:py-2.5 backdrop-blur-sm">
+              <p className="text-white/60 text-xs md:text-sm font-medium mb-1">Total Due</p>
+              <p className="text-sm md:text-base font-bold">{formatCurrency(paymentTotals.totalDue)}</p>
+            </div>
+            <div className="bg-white/10 rounded-lg px-3 py-2 md:px-4 md:py-2.5 backdrop-blur-sm">
+              <p className="text-white/60 text-xs md:text-sm font-medium mb-1">Balance Left</p>
+              <p className="text-sm md:text-base font-bold">{formatCurrency(paymentTotals.balanceLeft)}</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6 mb-8">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
         <Link href="/marketplace" className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all group border border-gray-100 shadow-sm flex flex-col items-center justify-center h-full">
           <div className="w-12 h-12 mx-auto mb-4 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors shrink-0">
             <Globe className="text-blue-600" size={24} />
@@ -238,12 +234,12 @@ function Dashboard() {
       </div>
 
       {/* Charts Section */}
-      <div className="mb-8">
-        <div className="flex items-center gap-2 mb-6">
-          <BarChart3 className="text-brand-500" size={24} />
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900">Portfolio Analytics</h2>
+      <div className="mb-6 md:mb-8">
+        <div className="flex items-center gap-2 mb-4 md:mb-6">
+          <BarChart3 className="text-brand-500 shrink-0" size={20} />
+          <h2 className="text-lg md:text-2xl font-bold text-gray-900">Portfolio Analytics</h2>
         </div>
-        <div className="grid md:grid-cols-2 gap-6 mb-6">
+        <div className="grid sm:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
           <Card>
             <div className="flex items-center gap-2 mb-4">
               <TrendingUp className="text-brand-500" size={20} />

@@ -73,7 +73,7 @@ export default function InvestDetail() {
       <Card>
         <div className="flex items-start justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{investment.projectData?.projectName || investment.project?.projectName || "Investment"}</h1>
+            <h1 className="text-xl md:text-2xl font-bold text-gray-900">{investment.projectData?.projectName || investment.project?.projectName || "Investment"}</h1>
             <p className="text-sm text-gray-500 mt-1">Ref: <span className="font-semibold text-cyan-600">{investment.refNumber || "--"}</span></p>
           </div>
           <Badge variant={statusVariant(investment.status)}>{investment.status || "Unknown"}</Badge>

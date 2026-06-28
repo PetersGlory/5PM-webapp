@@ -144,7 +144,7 @@ export default function AdminUserDetail() {
 
       <Modal isOpen={showEdit} onClose={() => setShowEdit(false)} title="Edit User" size="md">
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input label="First Name" value={editForm.firstName} onChange={(e) => setEditForm({ ...editForm, firstName: e.target.value })} />
             <Input label="Last Name" value={editForm.lastName} onChange={(e) => setEditForm({ ...editForm, lastName: e.target.value })} />
           </div>

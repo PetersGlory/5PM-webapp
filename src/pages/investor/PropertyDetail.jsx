@@ -87,7 +87,7 @@ export default function PropertyDetail() {
           <Card>
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">{property.name || property.title}</h1>
+                <h1 className="text-xl md:text-2xl font-bold text-gray-900">{property.name || property.title}</h1>
                 <div className="flex items-center gap-1 text-sm text-gray-500 mt-1">
                   <MapPin size={14} /><span>{property.location || property.city || "Nigeria"}</span>
                 </div>
@@ -162,7 +162,7 @@ export default function PropertyDetail() {
             </div>
           </Card>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="bg-slate-50 rounded-xl p-4 text-center">
               <TrendingUp size={20} className="text-brand-500 mx-auto mb-1" />
               <p className="text-xs text-gray-500">Total Value</p>

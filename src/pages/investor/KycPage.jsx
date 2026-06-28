@@ -139,7 +139,7 @@ function Step4Documents({ data, onChange, onNext, onPrev }) {
     <div className="space-y-4">
       <p className="text-sm text-gray-600 mb-4">Upload clear, legible copies of the following documents. Accepted formats: JPG, PNG, PDF.</p>
       {documentFields.map(({ key, label, accept }) => (
-        <div key={key} className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-brand-400 transition-colors">
+        <div key={key} className="border-2 border-dashed border-gray-300 rounded-xl p-4 md:p-6 text-center hover:border-brand-400 transition-colors">
           {data[key] ? (
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">

@@ -19,11 +19,11 @@ export default function AdminTokens() {
     fetch();
   }, []);
 
-  if (loading) return <div className="p-6 max-w-7xl mx-auto space-y-6"><Skeleton className="h-8 w-48" /><Skeleton.Table rows={5} /></div>;
+  if (loading) return <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6"><Skeleton className="h-8 w-48" /><Skeleton.Table rows={5} /></div>;
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Token Registry ({tokens.length})</h1>
+    <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6">
+      <h1 className="text-xl md:text-2xl font-bold text-gray-900">Token Registry ({tokens.length})</h1>
       <div className="overflow-x-auto -mx-6">
         <Card className="p-0">
           <table className="w-full text-sm min-w-[600px]">

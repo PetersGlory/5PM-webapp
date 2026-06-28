@@ -84,34 +84,34 @@ export default function MyInvestments() {
   }
 
   return (
-    <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Good morning, {localUser?.firstName}</h1>
-        <p className="text-gray-600">Welcome back to your investment dashboard</p>
+    <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-4 md:space-y-6">
+      <div className="mb-4 md:mb-8">
+        <h1 className="text-xl md:text-3xl font-bold text-gray-900">Good morning, {localUser?.firstName}</h1>
+        <p className="text-gray-600 text-sm md:text-base">Welcome back to your investment dashboard</p>
       </div>
 
-      <div className="bg-gradient-to-r from-slate-700 via-cyan-600 to-cyan-500 rounded-2xl p-8 text-white">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-6">
-            <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-              <span className="text-3xl font-bold">{user?.user?.firstName?.[0] || "U"}</span>
+      <div className="bg-gradient-to-r from-slate-700 via-cyan-600 to-cyan-500 rounded-2xl p-4 md:p-8 text-white">
+        <div className="flex flex-col sm:flex-row items-start gap-4 md:gap-6">
+          <div className="flex items-center gap-3 md:gap-6">
+            <div className="w-12 h-12 md:w-20 md:h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center shrink-0">
+              <span className="text-xl md:text-3xl font-bold">{user?.user?.firstName?.[0] || "U"}</span>
             </div>
-            <div>
-              <h2 className="text-3xl font-bold mb-2">{user?.user?.firstName} {user?.user?.lastName}</h2>
-              <div className="flex items-center gap-6 text-sm">
-                <div className="flex items-center gap-2"><Mail className="w-4 h-4" /><span>{user?.user?.email}</span></div>
-                <div className="flex items-center gap-2"><Phone className="w-4 h-4" /><span>{user?.user?.phone}</span></div>
+            <div className="min-w-0">
+              <h2 className="text-xl md:text-3xl font-bold mb-1 md:mb-2 truncate">{user?.user?.firstName} {user?.user?.lastName}</h2>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 md:gap-6 text-xs md:text-sm">
+                <div className="flex items-center gap-1 md:gap-2"><Mail className="w-3 h-3 md:w-4 md:h-4 shrink-0" /><span className="truncate">{user?.user?.email}</span></div>
+                <div className="flex items-center gap-1 md:gap-2"><Phone className="w-3 h-3 md:w-4 md:h-4 shrink-0" /><span>{user?.user?.phone}</span></div>
               </div>
             </div>
           </div>
         </div>
-        <div className="grid gap-6 grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mt-8">
-          <div><p className="text-cyan-100 text-sm mb-1">Total Amount Invested</p><p className="text-2xl font-bold">{formatCurrency(stats?.totalInvested || 0)}</p></div>
-          <div><p className="text-cyan-100 text-sm mb-1">Total Interest Earned</p><p className="text-2xl font-bold">{formatCurrency(stats?.totalInterestEarned || 0)}</p></div>
-          <div><p className="text-cyan-100 text-sm mb-1">Expected Monthly Repayment</p><p className="text-2xl font-bold">{formatCurrency(stats?.totalExpectedMonthlyRepayment || 0)}</p></div>
-          <div><p className="text-cyan-100 text-sm mb-1">Payout Upon Expiration</p><p className="text-2xl font-bold">{formatCurrency(stats?.totalPayoutUponExpiration || 0)}</p></div>
-          <div><p className="text-cyan-100 text-sm mb-1">Active Investments</p><p className="text-2xl font-bold">{(stats?.activeInvestments || 0).toLocaleString()}</p></div>
-          <div><p className="text-cyan-100 text-sm mb-1">Total Investments</p><p className="text-2xl font-bold">{stats?.totalInvestments || 0}</p></div>
+        <div className="grid gap-3 md:gap-6 grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mt-4 md:mt-8">
+          <div><p className="text-cyan-100 text-xs md:text-sm mb-0.5 md:mb-1">Total Amount Invested</p><p className="text-lg md:text-2xl font-bold">{formatCurrency(stats?.totalInvested || 0)}</p></div>
+          <div><p className="text-cyan-100 text-xs md:text-sm mb-0.5 md:mb-1">Total Interest Earned</p><p className="text-lg md:text-2xl font-bold">{formatCurrency(stats?.totalInterestEarned || 0)}</p></div>
+          <div><p className="text-cyan-100 text-xs md:text-sm mb-0.5 md:mb-1">Expected Monthly Repayment</p><p className="text-lg md:text-2xl font-bold">{formatCurrency(stats?.totalExpectedMonthlyRepayment || 0)}</p></div>
+          <div><p className="text-cyan-100 text-xs md:text-sm mb-0.5 md:mb-1">Payout Upon Expiration</p><p className="text-lg md:text-2xl font-bold">{formatCurrency(stats?.totalPayoutUponExpiration || 0)}</p></div>
+          <div><p className="text-cyan-100 text-xs md:text-sm mb-0.5 md:mb-1">Active Investments</p><p className="text-lg md:text-2xl font-bold">{(stats?.activeInvestments || 0).toLocaleString()}</p></div>
+          <div><p className="text-cyan-100 text-xs md:text-sm mb-0.5 md:mb-1">Total Investments</p><p className="text-lg md:text-2xl font-bold">{stats?.totalInvestments || 0}</p></div>
         </div>
       </div>
 
@@ -177,18 +177,18 @@ export default function MyInvestments() {
           </div>
           <h3 className="text-lg font-semibold text-gray-900">Payment Records</h3>
         </div>
-        <div className="grid gap-4 border-b border-gray-100 pb-6 md:grid-cols-3">
-          <div className="rounded-2xl bg-slate-50 p-4">
+        <div className="grid gap-3 md:gap-4 border-b border-gray-100 pb-4 md:pb-6 md:grid-cols-3">
+          <div className="rounded-2xl bg-slate-50 p-3 md:p-4">
             <p className="text-xs uppercase tracking-wide text-gray-500">Total Payment Recorded</p>
-            <p className="mt-2 text-2xl font-semibold text-gray-900">{formatCurrency(paymentTotals.totalPaymentAmountRecorded)}</p>
+            <p className="mt-1 md:mt-2 text-lg md:text-2xl font-semibold text-gray-900">{formatCurrency(paymentTotals.totalPaymentAmountRecorded)}</p>
           </div>
-          <div className="rounded-2xl bg-slate-50 p-4">
+          <div className="rounded-2xl bg-slate-50 p-3 md:p-4">
             <p className="text-xs uppercase tracking-wide text-gray-500">Total Due</p>
-            <p className="mt-2 text-2xl font-semibold text-gray-900">{formatCurrency(paymentTotals.totalDue)}</p>
+            <p className="mt-1 md:mt-2 text-lg md:text-2xl font-semibold text-gray-900">{formatCurrency(paymentTotals.totalDue)}</p>
           </div>
-          <div className="rounded-2xl bg-slate-50 p-4">
+          <div className="rounded-2xl bg-slate-50 p-3 md:p-4">
             <p className="text-xs uppercase tracking-wide text-gray-500">Balance Left</p>
-            <p className="mt-2 text-2xl font-semibold text-gray-900">{formatCurrency(paymentTotals.balanceLeft)}</p>
+            <p className="mt-1 md:mt-2 text-lg md:text-2xl font-semibold text-gray-900">{formatCurrency(paymentTotals.balanceLeft)}</p>
           </div>
         </div>
         <div className="mt-6">

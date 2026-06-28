@@ -70,12 +70,12 @@ export default function AdminPropertyDetail() {
   };
 
   if (loading) {
-    return <div className="p-6 max-w-5xl mx-auto space-y-6"><Skeleton className="h-6 w-24" /><Skeleton className="h-48 w-full" /></div>;
+    return <div className="p-4 md:p-4 md:p-6 max-w-5xl mx-auto space-y-4 md:space-y-6"><Skeleton className="h-6 w-24" /><Skeleton className="h-48 w-full" /></div>;
   }
 
   if (!property) {
     return (
-      <div className="p-6 max-w-5xl mx-auto">
+      <div className="p-4 md:p-6 max-w-5xl mx-auto">
         <Card><p className="text-center text-gray-500 py-12">Property not found.</p></Card>
       </div>
     );
@@ -84,7 +84,7 @@ export default function AdminPropertyDetail() {
   const Icon = updateTypeIcon;
 
   return (
-    <div className="p-6 max-w-5xl mx-auto space-y-6">
+    <div className="p-4 md:p-4 md:p-6 max-w-5xl mx-auto space-y-4 md:space-y-6">
       <Link to="/admin/properties" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-brand-500 transition-colors">
         <ArrowLeft size={16} /> Back to Properties
       </Link>
@@ -92,7 +92,7 @@ export default function AdminPropertyDetail() {
       <Card>
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{property.title}</h1>
+            <h1 className="text-xl md:text-2xl font-bold text-gray-900">{property.title}</h1>
             <p className="text-sm text-gray-500 mt-1">{property.location || "Nigeria"}</p>
           </div>
           <Badge variant={property.status === "active" ? "success" : "default"} size="lg">{property.status || "active"}</Badge>

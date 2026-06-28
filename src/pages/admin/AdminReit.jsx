@@ -50,12 +50,12 @@ export default function AdminReit() {
 
   const filtered = pools.filter((p) => (p.name || "").toLowerCase().includes(search.toLowerCase()));
 
-  if (loading) return <div className="p-6 max-w-7xl mx-auto space-y-6"><Skeleton className="h-8 w-48" /><Skeleton.Table rows={5} /></div>;
+  if (loading) return <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6"><Skeleton className="h-8 w-48" /><Skeleton.Table rows={5} /></div>;
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">REIT Pools ({pools.length})</h1>
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900">REIT Pools ({pools.length})</h1>
         <Button onClick={() => setShowModal(true)} size="sm"><Plus size={16} /> Create Pool</Button>
       </div>
       <div className="relative max-w-md">

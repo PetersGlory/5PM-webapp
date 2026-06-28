@@ -66,13 +66,13 @@ export default function AdminProperties() {
   });
 
   if (loading) {
-    return <div className="p-6 max-w-7xl mx-auto space-y-6"><Skeleton className="h-8 w-48" /><Skeleton.Table rows={6} /></div>;
+    return <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6"><Skeleton className="h-8 w-48" /><Skeleton.Table rows={6} /></div>;
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Properties ({properties.length})</h1>
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900">Properties ({properties.length})</h1>
         <Button onClick={() => setShowModal(true)} size="sm"><Plus size={16} /> Add Property</Button>
       </div>
       <div className="relative max-w-md">
@@ -115,11 +115,11 @@ export default function AdminProperties() {
       <Modal isOpen={showModal} onClose={() => { setShowModal(false); setForm(defaultForm); }} title="Add New Property" size="lg">
         <div className="space-y-4">
           <Input label="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="Property name" />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input label="Target Amount (₦)" type="number" value={form.targetAmount} onChange={(e) => setForm({ ...form, targetAmount: e.target.value })} placeholder="e.g. 50000000" />
             <Input label="Unit Price (₦)" type="number" value={form.unitPrice} onChange={(e) => setForm({ ...form, unitPrice: e.target.value })} placeholder="e.g. 500000" />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input label="Total Units" type="number" value={form.totalUnits} onChange={(e) => setForm({ ...form, totalUnits: e.target.value })} placeholder="e.g. 100" />
             <Input label="Expected ROI (%)" type="number" value={form.expectedROI} onChange={(e) => setForm({ ...form, expectedROI: e.target.value })} placeholder="e.g. 15" />
           </div>

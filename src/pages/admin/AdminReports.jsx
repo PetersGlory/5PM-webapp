@@ -38,13 +38,13 @@ export default function AdminReports() {
   };
 
   if (loading) {
-    return <div className="p-6 max-w-7xl mx-auto space-y-6"><Skeleton className="h-8 w-48" /><div className="grid md:grid-cols-2 gap-4"><Skeleton.Card /><Skeleton.Card /></div></div>;
+    return <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6"><Skeleton className="h-8 w-48" /><div className="grid md:grid-cols-2 gap-4"><Skeleton.Card /><Skeleton.Card /></div></div>;
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Admin Reports</h1>
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900">Admin Reports</h1>
         <Button onClick={handleExport} variant="outline" size="sm"><Download size={16} /> Export CSV</Button>
       </div>
       <div className="grid md:grid-cols-2 gap-6">

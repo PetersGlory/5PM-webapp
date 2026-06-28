@@ -52,12 +52,12 @@ export default function AdminWealthPlans() {
   const totalContributed = plans.reduce((s, p) => s + parseFloat(p.totalContributed || 0), 0);
 
   if (loading) {
-    return <div className="p-6 max-w-7xl mx-auto space-y-6"><Skeleton className="h-8 w-48" /><Skeleton className="h-24 w-full" /><Skeleton.Table rows={6} /></div>;
+    return <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6"><Skeleton className="h-8 w-48" /><Skeleton className="h-24 w-full" /><Skeleton.Table rows={6} /></div>;
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Wealth Plans ({plans.length})</h1>
+    <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6">
+      <h1 className="text-xl md:text-2xl font-bold text-gray-900">Wealth Plans ({plans.length})</h1>
       <div className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl p-6 text-white">
         <p className="text-sm text-emerald-100 mb-1">Total Contributed Across All Plans</p>
         <p className="text-2xl md:text-3xl font-bold">{formatNaira(totalContributed)}</p>

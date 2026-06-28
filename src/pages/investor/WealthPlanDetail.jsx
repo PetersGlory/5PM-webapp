@@ -51,7 +51,7 @@ export default function WealthPlanDetail() {
 
       <section className="rounded-3xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 text-white overflow-hidden">
         <div className="px-4 py-4 md:px-10 md:py-10">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+          <div className="flex flex-col gap-4 md:gap-6 lg:flex-row lg:items-start lg:justify-between">
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <Badge variant={plan.status === "active" ? "success" : plan.status === "completed" ? "info" : "danger"}>{plan.status}</Badge>
@@ -59,7 +59,7 @@ export default function WealthPlanDetail() {
               <h2 className="text-2xl md:text-3xl font-bold">Salary Wealth Plan</h2>
               <p className="text-emerald-100">{plan.employerName ? `Employer: ${plan.employerName}` : "Self sponsored"}</p>
             </div>
-            <div className="grid grid-cols-2 gap-4 rounded-2xl bg-white/10 p-5 backdrop-blur-sm min-w-[260px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-2xl bg-white/10 p-5 backdrop-blur-sm">
               <div><p className="text-xs uppercase tracking-wide text-emerald-100">Monthly</p><p className="mt-1 text-lg md:text-xl font-bold">{formatNaira(plan.monthlyContribution)}</p></div>
               <div><p className="text-xs uppercase tracking-wide text-emerald-100">Contributed</p><p className="mt-1 text-lg md:text-xl font-bold">{formatNaira(plan.totalContributed)}</p></div>
               <div><p className="text-xs uppercase tracking-wide text-emerald-100">Duration</p><p className="mt-1 text-lg md:text-xl font-bold">{plan.duration || "--"} mo</p></div>
@@ -69,7 +69,7 @@ export default function WealthPlanDetail() {
         </div>
       </section>
 
-      <div className="bg-white rounded-xl border border-gray-100 p-6">
+      <div className="bg-white rounded-xl border border-gray-100 p-4 md:p-6">
         <div className="flex items-center justify-between mb-2">
           <p className="text-sm font-medium text-gray-600">Progress</p>
           <p className="text-sm font-semibold text-gray-900">{contributions.length} / {plan.duration || "--"} months</p>

@@ -45,28 +45,28 @@ export default function AIAnalytics() {
             <TrendingUp size={20} className="text-green-600" />
             <h3 className="text-sm font-semibold text-gray-900">Total Invested</h3>
           </div>
-          <p className="text-2xl font-bold text-gray-900">{formatNaira(insights.totalInvested)}</p>
+          <p className="text-lg md:text-2xl font-bold text-gray-900">{formatNaira(insights.totalInvested)}</p>
         </Card>
         <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
           <div className="flex items-center gap-3 mb-2">
             <PieChart size={20} className="text-blue-600" />
             <h3 className="text-sm font-semibold text-gray-900">Diversification</h3>
           </div>
-          <p className="text-2xl font-bold text-gray-900">{insights.diversificationScore?.toFixed(0) || 0}%</p>
+          <p className="text-lg md:text-2xl font-bold text-gray-900">{insights.diversificationScore?.toFixed(0) || 0}%</p>
         </Card>
         <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
           <div className="flex items-center gap-3 mb-2">
             <Shield size={20} className="text-orange-600" />
             <h3 className="text-sm font-semibold text-gray-900">Risk Score</h3>
           </div>
-          <p className="text-2xl font-bold text-gray-900">{insights.riskScore?.toFixed(0) || 0}%</p>
+          <p className="text-lg md:text-2xl font-bold text-gray-900">{insights.riskScore?.toFixed(0) || 0}%</p>
         </Card>
         <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
           <div className="flex items-center gap-3 mb-2">
             <BarChart3 size={20} className="text-purple-600" />
             <h3 className="text-sm font-semibold text-gray-900">Products</h3>
           </div>
-          <p className="text-2xl font-bold text-gray-900">{insights.productTypes || 0}</p>
+          <p className="text-lg md:text-2xl font-bold text-gray-900">{insights.productTypes || 0}</p>
         </Card>
       </div>
 

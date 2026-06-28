@@ -36,7 +36,7 @@ export default function LoanDetail() {
       <Card>
         <div className="flex items-start justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{formatNaira(loan.amount)} Loan</h1>
+            <h1 className="text-xl md:text-2xl font-bold text-gray-900">{formatNaira(loan.amount)} Loan</h1>
             <p className="text-sm text-gray-500">{loan.term} months at {loan.interestRate}% p.a.</p>
           </div>
           <Badge variant={loan.status === "active" ? "success" : loan.status === "pending" ? "warning" : "default"} size="lg">{loan.status}</Badge>

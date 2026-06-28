@@ -59,11 +59,11 @@ export default function AdminLoans() {
     (l.borrower?.lastName || "").toLowerCase().includes(search.toLowerCase())
   );
 
-  if (loading) return <div className="p-6 max-w-7xl mx-auto space-y-6"><Skeleton className="h-8 w-48" /><Skeleton.Table rows={6} /></div>;
+  if (loading) return <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6"><Skeleton className="h-8 w-48" /><Skeleton.Table rows={6} /></div>;
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Loan Management ({loans.length})</h1>
+    <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6">
+      <h1 className="text-xl md:text-2xl font-bold text-gray-900">Loan Management ({loans.length})</h1>
       <div className="flex items-center gap-4">
         <div className="relative max-w-md flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />

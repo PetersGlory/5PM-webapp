@@ -46,13 +46,13 @@ export default function AdminSupportTickets() {
   });
 
   if (loading) {
-    return <div className="p-6 max-w-7xl mx-auto space-y-6"><Skeleton className="h-8 w-48" /><Skeleton.Table rows={8} /></div>;
+    return <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6"><Skeleton className="h-8 w-48" /><Skeleton.Table rows={8} /></div>;
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Support Tickets ({tickets.length})</h1>
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900">Support Tickets ({tickets.length})</h1>
       </div>
       <div className="flex items-center gap-4">
         <div className="relative max-w-md flex-1">

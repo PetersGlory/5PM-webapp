@@ -59,13 +59,13 @@ export default function AdminCampaigns() {
   );
 
   if (loading) {
-    return <div className="p-6 max-w-7xl mx-auto space-y-6"><Skeleton className="h-8 w-48" /><Skeleton.Table rows={5} /></div>;
+    return <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6"><Skeleton className="h-8 w-48" /><Skeleton.Table rows={5} /></div>;
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Crowdfunding Campaigns ({campaigns.length})</h1>
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900">Crowdfunding Campaigns ({campaigns.length})</h1>
         <Button onClick={() => setShowModal(true)} size="sm"><Plus size={16} /> Create Campaign</Button>
       </div>
 
@@ -130,11 +130,11 @@ export default function AdminCampaigns() {
       <Modal isOpen={showModal} onClose={() => { setShowModal(false); setForm(defaultForm); }} title="Create Campaign" size="lg">
         <div className="space-y-4">
           <Input label="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="Campaign name" />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input label="Target Amount (₦)" type="number" value={form.targetAmount} onChange={(e) => setForm({ ...form, targetAmount: e.target.value })} placeholder="e.g. 10000000" />
             <Input label="Min Investment (₦)" type="number" value={form.minInvestment} onChange={(e) => setForm({ ...form, minInvestment: e.target.value })} placeholder="e.g. 50000" />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input label="Deadline" type="date" value={form.deadline} onChange={(e) => setForm({ ...form, deadline: e.target.value })} />
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>

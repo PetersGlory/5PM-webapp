@@ -31,7 +31,7 @@ function Calculator() {
         <p className="text-gray-600">Calculate your potential returns on investments</p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-4 md:gap-8">
         <Card>
           <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-6">Input Parameters</h3>
           <div className="space-y-6">

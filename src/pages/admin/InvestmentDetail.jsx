@@ -99,7 +99,7 @@ export default function InvestmentDetail() {
 
       <section className="rounded-3xl bg-gradient-to-r from-slate-900 via-slate-800 to-cyan-700 text-white overflow-hidden">
           <div className="p-4 md:p-8">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+          <div className="flex flex-col gap-4 md:gap-8 lg:flex-row lg:items-start lg:justify-between">
             <div className="space-y-5">
               <div className="flex items-center gap-3">
                 <Badge variant={getStatusBadge(investment?.status)}>{(investment?.status || "--").toUpperCase()}</Badge>
@@ -110,7 +110,7 @@ export default function InvestmentDetail() {
                 <h2 className="mt-2 text-2xl md:text-3xl font-bold capitalize">{investment?.projectData?.projectName || investment?.project?.projectName || "--"}</h2>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4 rounded-2xl bg-white/10 p-5 backdrop-blur-sm sm:min-w-[320px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-2xl bg-white/10 p-5 backdrop-blur-sm">
               <div><p className="text-xs uppercase tracking-wide text-cyan-100">Interest Rate</p><p className="mt-2 text-xl md:text-2xl font-bold">{investment?.interestRatePerAnnum || 0}%</p></div>
               <div><p className="text-xs uppercase tracking-wide text-cyan-100">Duration</p><p className="mt-2 text-xl md:text-2xl font-bold">{investment?.tenure || 0} mo</p></div>
               <div><p className="text-xs uppercase tracking-wide text-cyan-100">Start</p><p className="mt-2 text-sm font-semibold">{formatDate(investment?.startDate)}</p></div>
