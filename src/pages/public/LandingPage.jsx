@@ -11,7 +11,7 @@ const products = [
   {
     name: "Nexus Income Vault",
     description: "Stable fixed-income investment with consistent returns.",
-    roi: "3.5% – 5% monthly",
+    roi: "3.5% monthly",
     roiLabel: "42–60% p.a.",
     min: "₦100,000",
     duration: "12 months",
@@ -22,7 +22,7 @@ const products = [
   {
     name: "Fractional Real Estate",
     description: "Own a piece of prime real estate with fractional ownership.",
-    roi: "3.5% – 5% monthly",
+    roi: "3.5% monthly",
     roiLabel: "42–60% p.a.",
     min: "₦500,000",
     duration: "18 months",
@@ -44,9 +44,9 @@ const products = [
 ];
 
 const stats = [
-  { value: "8,400+", label: "Active Investors", icon: Users, color: "text-brand-500" },
+  { value: "100+", label: "Active Investors", icon: Users, color: "text-brand-500" },
   { value: "₦2.4B+", label: "Assets Under Management", icon: BarChart3, color: "text-blue-500" },
-  { value: "3.5–5%", label: "Monthly Returns", icon: TrendingUp, color: "text-green-500" },
+  { value: "3.5%", label: "Monthly Returns", icon: TrendingUp, color: "text-green-500" },
   { value: "100%", label: "Asset-Backed", icon: Shield, color: "text-brand-500" },
 ];
 
@@ -275,8 +275,8 @@ function LandingPage() {
                 borderHover: "hover:border-brand-300",
               },
               {
-                icon: TrendingUp, title: "3.5% – 5% Monthly Returns",
-                text: "Our carefully selected real estate and income vault products consistently deliver monthly returns that outperform traditional savings by 3–5×.",
+                icon: TrendingUp, title: "3.5% Monthly Returns",
+                text: "Our carefully selected real estate and income vault products consistently deliver monthly returns that outperform traditional savings by 3×.",
                 iconBg: "bg-navy-100", iconColor: "text-navy-600",
                 borderHover: "hover:border-navy-300",
                 tags: ["Real Estate: 18–22% p.a.", "Vault: 42–60% p.a."],
