@@ -163,7 +163,7 @@ function Dashboard() {
       </div>
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
-        <Link href="/marketplace" className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all group border border-gray-100 shadow-sm flex flex-col items-center justify-center h-full">
+        <Link to="/properties" className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all group border border-gray-100 shadow-sm flex flex-col items-center justify-center h-full">
           <div className="w-12 h-12 mx-auto mb-4 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors shrink-0">
             <Globe className="text-blue-600" size={24} />
           </div>

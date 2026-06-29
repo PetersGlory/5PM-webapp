@@ -279,7 +279,7 @@ function LandingPage() {
                 text: "Our carefully selected real estate and income vault products consistently deliver monthly returns that outperform traditional savings by 3×.",
                 iconBg: "bg-navy-100", iconColor: "text-navy-600",
                 borderHover: "hover:border-navy-300",
-                tags: ["Real Estate: 18–22% p.a.", "Vault: 42–60% p.a."],
+                tags: ["Real Estate: 3.5% p.m.", "Vault: 3-3.50% p.m."],
                 featured: true,
               },
               {

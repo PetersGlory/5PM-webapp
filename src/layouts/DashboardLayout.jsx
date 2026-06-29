@@ -30,7 +30,7 @@ import EmailVerificationModal from '../components/EmailVerificationModal';
 
 const menuItems = [
   { label: 'Dashboard', icon: LayoutGrid, path: '/dashboard' },
-  { label: 'Marketplace', icon: Store, path: '/marketplace' },
+  // { label: 'Marketplace', icon: Store, path: '/marketplace' },
   { label: 'Wealth Plans', icon: PiggyBank, path: '/wealth-plans' },
   { label: 'My Investments', icon: TrendingUp, path: '/investments' },
   { label: 'Real Estate', icon: Building2, path: '/properties' },
