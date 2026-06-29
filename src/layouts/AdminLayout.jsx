@@ -209,14 +209,14 @@ function AdminLayout({ children }) {
         <main className="flex-1 overflow-y-auto">{children}</main>
       </div>
 
-      {needsVerification && (
+      {/* {needsVerification && (
         <div className="fixed bottom-4 right-4 z-40">
           <button onClick={() => setVerifyModalOpen(true)} className="flex items-center gap-2 bg-brand-500 text-white px-4 py-3 rounded-xl shadow-lg hover:bg-brand-600 transition-colors text-sm font-medium">
             <Mail size={18} />
             Verify Email
           </button>
         </div>
-      )}
+      )} */}
 
       {/* <EmailVerificationModal isOpen={verifyModalOpen} onClose={() => setVerifyModalOpen(false)} /> */}
     </div>
