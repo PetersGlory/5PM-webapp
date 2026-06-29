@@ -26,7 +26,8 @@ function Login() {
         localStorage.setItem("authToken", token);
         login(token, { email });
       }
-      window.location.href = '/dashboard';
+      const redirectTo = response.user?.role === 'admin' ? '/admin' : '/dashboard';
+      window.location.href = redirectTo;
     } catch (err) {
       if (err.response?.status === 403 && err.response?.data?.message?.toLowerCase().includes('not verified')) {
         window.location.href = '/verify-email';
