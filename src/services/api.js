@@ -139,9 +139,9 @@ export const adminApi = {
     const q = new URLSearchParams(params).toString();
     return api.get(`/admin/wallets?${q}`).then(r => r.data);
   },
-  getProperties: () => api.get('/properties').then(r => r.data),
-  createProperty: (data) => api.post('/properties', data).then(r => r.data),
-  updateProperty: (id, data) => api.patch(`/properties/${id}`, data).then(r => r.data),
+  getProperties: () => api.get('/admin/properties').then(r => r.data),
+  createProperty: (data) => api.post('/admin/properties', data).then(r => r.data),
+  updateProperty: (id, data) => api.patch(`/admin/properties/${id}`, data).then(r => r.data),
   getDistributions: (params) => {
     const q = new URLSearchParams(params).toString();
     return api.get(`/admin/distributions?${q}`).then(r => r.data);
@@ -155,7 +155,7 @@ export const adminApi = {
   },
   getInvestmentDetail: (id) => api.get(`/admin/investments/${id}`).then(r => r.data),
   recordInvestmentPayment: (id, data) => api.post(`/admin/investments/${id}/payments`, data).then(r => r.data),
-  getPropertyDetail: (id) => api.get(`/admin/projects/${id}`).then(r => r.data),
+  getPropertyDetail: (id) => api.get(`/admin/properties/${id}`).then(r => r.data),
   getReports: () => api.get('/admin/reports').then(r => r.data),
 };
 

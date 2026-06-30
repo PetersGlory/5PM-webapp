@@ -4,7 +4,10 @@ import { adminDepositApi } from "../../services/api";
 import { Card, Skeleton, Badge, Button, Modal, Input, Pagination } from "../../components/common";
 import toast from "react-hot-toast";
 
-const formatNaira = (amount) => "₦" + (amount || 0).toLocaleString("en-NG");
+const formatCurrency = (amount, currency = "NGN") => {
+  const symbol = currency === "USD" || currency === "USDT" ? "$" : "₦";
+  return symbol + (amount || 0).toLocaleString("en-NG");
+};
 const formatDate = (date) => date ? new Date(date).toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" }) : "--";
 
 const statusVariant = (s) => {
@@ -118,6 +121,8 @@ export default function AdminDeposits() {
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">User</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Email</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Amount</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Currency</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Reference</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Date</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
               <th className="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Actions</th>
@@ -128,7 +133,9 @@ export default function AdminDeposits() {
               <tr key={d.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 font-medium text-gray-900">{d.depositor?.firstName} {d.depositor?.lastName}</td>
                 <td className="px-6 py-4 text-gray-600">{d.depositor?.email}</td>
-                <td className="px-6 py-4 font-semibold text-gray-900">{formatNaira(d.amount)}</td>
+                <td className="px-6 py-4 font-semibold text-gray-900">{formatCurrency(d.amount, d.currency)}</td>
+                <td className="px-6 py-4"><Badge variant={d.currency === "NGN" ? "default" : "info"}>{d.currency || "NGN"}</Badge></td>
+                <td className="px-6 py-4 text-gray-500 max-w-[120px] truncate font-mono text-xs" title={d.reference || "--"}>{d.reference || "--"}</td>
                 <td className="px-6 py-4 text-gray-500">{formatDate(d.createdAt)}</td>
                 <td className="px-6 py-4"><Badge variant={statusVariant(d.status)}>{d.status}</Badge></td>
                 <td className="px-6 py-4 text-right">
@@ -148,12 +155,17 @@ export default function AdminDeposits() {
       <Pagination page={page} pages={pagination.pages} total={pagination.total} onPageChange={setPage} />
 
       {actionDeposit && (
-        <Modal isOpen={true} onClose={() => { setActionDeposit(null); setRejectReason(""); setConfirmReject(false); }} title="Review Deposit" size="sm">
+        <Modal isOpen={true} onClose={() => { setActionDeposit(null); setRejectReason(""); setConfirmReject(false); }} title="Review Deposit" size="md">
           <div className="space-y-4">
             <div className="bg-gray-50 rounded-xl p-4 space-y-2">
               <div className="flex justify-between text-sm"><span className="text-gray-600">User</span><span className="font-semibold">{actionDeposit.depositor?.firstName} {actionDeposit.depositor?.lastName}</span></div>
-              <div className="flex justify-between text-sm"><span className="text-gray-600">Amount</span><span className="font-semibold">{formatNaira(actionDeposit.amount)}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-gray-600">Email</span><span className="font-semibold">{actionDeposit.depositor?.email}</span></div>
+              <div className="border-t border-gray-200 my-1" />
+              <div className="flex justify-between text-sm"><span className="text-gray-600">Amount</span><span className="font-semibold">{formatCurrency(actionDeposit.amount, actionDeposit.currency)}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-gray-600">Currency</span><span className="font-semibold">{actionDeposit.currency || "NGN"}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-gray-600">Reference</span><span className="font-semibold font-mono text-xs">{actionDeposit.reference || "--"}</span></div>
               <div className="flex justify-between text-sm"><span className="text-gray-600">Date</span><span className="font-semibold">{formatDate(actionDeposit.createdAt)}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-gray-600">Deposit ID</span><span className="font-semibold font-mono text-xs">{actionDeposit.id}</span></div>
             </div>
             {confirmReject ? (
               <div className="space-y-3">
