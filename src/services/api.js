@@ -133,6 +133,7 @@ export const adminApi = {
   reviewKyc: (id, status, note) => {
     if (status === 'approved') return api.patch(`/admin/kyc/${id}/approve`).then(r => r.data);
     if (status === 'rejected') return api.patch(`/admin/kyc/${id}/reject`, { comment: note }).then(r => r.data);
+    if (status === 'under_review') return api.patch(`/admin/kyc/${id}/review`).then(r => r.data);
     return api.patch(`/admin/kyc/${id}/approve`).then(r => r.data);
   },
   getWallets: (params) => {

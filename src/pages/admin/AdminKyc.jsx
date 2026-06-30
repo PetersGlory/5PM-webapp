@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Shield, CheckCircle, XCircle, Clock, Search, ExternalLink, AlertCircle, Settings } from "lucide-react";
+import { Shield, CheckCircle, XCircle, Clock, Search, ExternalLink, AlertCircle, Settings, User, FileText, MapPin, CreditCard } from "lucide-react";
 import { adminApi, adminKycSettingsApi } from "../../services/api";
 import { Card, Skeleton, Badge, Button, Modal, Pagination } from "../../components/common";
 import toast from "react-hot-toast";
@@ -9,11 +9,27 @@ const formatDate = (date) => date ? new Date(date).toLocaleDateString("en-NG", {
 const statusVariant = (status) => {
   switch (status) {
     case "approved": return "success";
-    case "under-review": return "warning";
+    case "under_review": return "warning";
     case "rejected": return "danger";
     default: return "default";
   }
 };
+
+const docLabel = (fieldname) => {
+  const labels = { passport: "Passport Photo", governmentId: "Government ID", utilityBill: "Utility Bill", idDocument: "ID Document", selfie: "Selfie" };
+  return labels[fieldname] || fieldname || "Document";
+};
+
+function DocumentLink({ doc, label }) {
+  if (!doc?.url) return null;
+  return (
+    <a href={doc.url} target="_blank" rel="noopener noreferrer"
+      className="flex items-center gap-2 bg-gray-50 rounded-xl p-3 text-sm text-brand-600 hover:bg-brand-50 transition-colors border border-gray-200">
+      <ExternalLink size={14} />
+      <span className="truncate">{label}</span>
+    </a>
+  );
+}
 
 export default function AdminKyc() {
   const [requests, setRequests] = useState([]);
@@ -72,9 +88,9 @@ export default function AdminKyc() {
 
   const filtered = requests.filter((r) => {
     const q = search.toLowerCase();
-    return (r.user?.firstName || "").toLowerCase().includes(q)
-      || (r.user?.lastName || "").toLowerCase().includes(q)
-      || (r.user?.email || "").toLowerCase().includes(q);
+    return (r.kycUser?.firstName || "").toLowerCase().includes(q)
+      || (r.kycUser?.lastName || "").toLowerCase().includes(q)
+      || (r.kycUser?.email || "").toLowerCase().includes(q);
   });
 
   if (loading) {
@@ -100,7 +116,7 @@ export default function AdminKyc() {
         <div className="flex items-center gap-3 bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
           <AlertCircle size={16} />
           <span className="flex-1">{error}</span>
-                    <button onClick={fetchData} className="text-red-600 font-semibold hover:text-red-800 underline">Retry</button>
+          <button onClick={fetchData} className="text-red-600 font-semibold hover:text-red-800 underline">Retry</button>
         </div>
       )}
       <Card className="p-0 overflow-hidden">
@@ -119,9 +135,9 @@ export default function AdminKyc() {
             {filtered.map((r) => (
               <tr key={r.id || r._id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4">
-                  <span className="font-medium text-gray-900">{r.user?.firstName} {r.user?.lastName}</span>
+                  <span className="font-medium text-gray-900">{r.kycUser?.firstName} {r.kycUser?.lastName}</span>
                 </td>
-                <td className="px-6 py-4 text-gray-600">{r.user?.email}</td>
+                <td className="px-6 py-4 text-gray-600">{r.kycUser?.email}</td>
                 <td className="px-6 py-4 text-gray-500">{formatDate(r.createdAt)}</td>
                 <td className="px-6 py-4">
                   <Badge variant={statusVariant(r.status)}>{r.status || "pending"}</Badge>
@@ -142,33 +158,85 @@ export default function AdminKyc() {
 
       <Modal isOpen={!!selected} onClose={() => { setSelected(null); setRejectionNote(""); setConfirmReject(false); }} title="Review KYC Request" size="lg">
         {selected && (
-          <div className="space-y-4">
-            <div className="bg-gray-50 rounded-xl p-4 space-y-2">
-              <div className="flex justify-between text-sm"><span className="text-gray-600">Name</span><span className="font-semibold">{selected.user?.firstName} {selected.user?.lastName}</span></div>
-              <div className="flex justify-between text-sm"><span className="text-gray-600">Email</span><span className="font-semibold">{selected.user?.email}</span></div>
-              <div className="flex justify-between text-sm"><span className="text-gray-600">Status</span><Badge variant={statusVariant(selected.status)}>{selected.status}</Badge></div>
-              {selected.user?.phone && <div className="flex justify-between text-sm"><span className="text-gray-600">Phone</span><span className="font-semibold">{selected.user.phone}</span></div>}
+          <div className="space-y-5">
+            {/* User Info */}
+            <div>
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5"><User size={14} /> User Information</p>
+              <div className="bg-gray-50 rounded-xl p-4 space-y-2">
+                <div className="flex justify-between text-sm"><span className="text-gray-600">Name</span><span className="font-semibold">{selected.kycUser?.firstName} {selected.kycUser?.lastName}</span></div>
+                <div className="flex justify-between text-sm"><span className="text-gray-600">Email</span><span className="font-semibold">{selected.kycUser?.email}</span></div>
+                {selected.kycUser?.phone && <div className="flex justify-between text-sm"><span className="text-gray-600">Phone</span><span className="font-semibold">{selected.kycUser.phone}</span></div>}
+                <div className="flex justify-between text-sm"><span className="text-gray-600">Status</span><Badge variant={statusVariant(selected.status)}>{selected.status}</Badge></div>
+              </div>
             </div>
 
-            {(selected.documents?.length > 0 || selected.documentUrls?.length > 0) && (
+            {/* Identity */}
+            <div>
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5"><CreditCard size={14} /> Identity Information</p>
+              <div className="bg-gray-50 rounded-xl p-4 space-y-2">
+                <div className="flex justify-between text-sm"><span className="text-gray-600">BVN</span><span className="font-semibold font-mono">{selected.bvn ? `****${selected.bvn.slice(-4)}` : "--"}</span></div>
+                <div className="flex justify-between text-sm"><span className="text-gray-600">NIN</span><span className="font-semibold font-mono">{selected.nin ? `****${selected.nin.slice(-4)}` : "--"}</span></div>
+              </div>
+            </div>
+
+            {/* Address */}
+            {selected.addressProof && (selected.addressProof.address || selected.addressProof.city) && (
               <div>
-                <p className="text-sm font-medium text-gray-700 mb-2">Uploaded Documents</p>
-                <div className="grid grid-cols-2 gap-3">
-                  {(selected.documents || selected.documentUrls || []).map((doc, i) => (
-                    <a key={i} href={doc.url || doc} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-2 bg-gray-50 rounded-xl p-3 text-sm text-brand-600 hover:bg-brand-50 transition-colors border border-gray-200">
-                      <ExternalLink size={14} />
-                      <span className="truncate">{doc.name || `Document ${i + 1}`}</span>
-                    </a>
-                  ))}
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5"><MapPin size={14} /> Address</p>
+                <div className="bg-gray-50 rounded-xl p-4 space-y-2">
+                  {selected.addressProof.address && <div className="flex justify-between text-sm"><span className="text-gray-600">Address</span><span className="font-semibold text-right max-w-[60%]">{selected.addressProof.address}</span></div>}
+                  {selected.addressProof.city && <div className="flex justify-between text-sm"><span className="text-gray-600">City</span><span className="font-semibold">{selected.addressProof.city}</span></div>}
+                  {selected.addressProof.state && <div className="flex justify-between text-sm"><span className="text-gray-600">State</span><span className="font-semibold">{selected.addressProof.state}</span></div>}
+                  {selected.addressProof.country && <div className="flex justify-between text-sm"><span className="text-gray-600">Country</span><span className="font-semibold">{selected.addressProof.country}</span></div>}
                 </div>
               </div>
             )}
 
+            {/* Uploaded Documents */}
+            <div>
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5"><FileText size={14} /> Uploaded Documents</p>
+              <div className="grid grid-cols-2 gap-3">
+                {selected.passportPhoto?.url ? (
+                  <DocumentLink doc={selected.passportPhoto} label={docLabel(selected.passportPhoto.fieldname)} />
+                ) : (
+                  <div className="bg-gray-50 rounded-xl p-3 text-sm text-gray-400 border border-gray-200 flex items-center gap-2">
+                    <span className="text-xs">Passport — Not uploaded</span>
+                  </div>
+                )}
+                {selected.idDocument?.url ? (
+                  <DocumentLink doc={selected.idDocument} label={selected.idDocument.idType ? `${selected.idDocument.idType} ID` : "ID Document"} />
+                ) : (
+                  <div className="bg-gray-50 rounded-xl p-3 text-sm text-gray-400 border border-gray-200 flex items-center gap-2">
+                    <span className="text-xs">ID Document — Not uploaded</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Selfie */}
+            {selected.selfie?.url && (
+              <div>
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Selfie</p>
+                <a href={selected.selfie.url} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-gray-50 rounded-xl p-3 text-sm text-brand-600 hover:bg-brand-50 transition-colors border border-gray-200">
+                  <ExternalLink size={14} />
+                  View Selfie Photo
+                </a>
+              </div>
+            )}
+
+            {/* Admin Comment (if rejected) */}
+            {selected.adminComment && (
+              <div className="bg-red-50 border border-red-200 rounded-xl p-3 text-sm text-red-700">
+                <span className="font-semibold">Rejection reason: </span>{selected.adminComment}
+              </div>
+            )}
+
+            {/* Actions */}
             {selected.status !== "approved" && selected.status !== "rejected" && (
               <>
                 {confirmReject ? (
-                  <div className="space-y-3">
+                  <div className="space-y-3 pt-2">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Rejection Reason (required)</label>
                       <textarea value={rejectionNote} onChange={(e) => setRejectionNote(e.target.value)} rows={3} placeholder="Explain why this KYC is being rejected..."
@@ -182,11 +250,11 @@ export default function AdminKyc() {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex gap-3">
+                  <div className="flex gap-3 pt-2">
                     <Button variant="danger" className="flex-1" onClick={() => setConfirmReject(true)}>
                       <XCircle size={16} /> Reject
                     </Button>
-                    <Button variant="secondary" className="flex-1" onClick={() => handleReview("under-review")}>
+                    <Button variant="secondary" className="flex-1" onClick={() => handleReview("under_review")}>
                       <Clock size={16} /> Mark Review
                     </Button>
                     <Button className="flex-1" onClick={() => handleReview("approved")}>
