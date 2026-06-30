@@ -41,7 +41,7 @@ export default function AdminWallets() {
 
   useEffect(() => { fetch(); }, [page]);
 
-  const totalBalance = wallets.reduce((sum, w) => sum + (w.balance || 0), 0);
+  const totalBalance = wallets.reduce((sum, w) => sum + (Number(w.balance) || 0), 0);
 
   if (loading) {
     return <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-4 md:space-y-6"><Skeleton className="h-8 w-48" /><Skeleton className="h-24 w-full" /><Skeleton.Table rows={6} /></div>;
